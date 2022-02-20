@@ -17,7 +17,7 @@ class StockRegister(BaseCommand):
     market_name: str = ""
 
     def add_arguments(self):
-        self.parser.add_argument('-market_name', default = 'kospi',
+        self.parser.add_argument('-market_name', default = 'kosdaq',
                                  choices = [market.market_name for market in self.market_service.lists()])
         args = self.parser.parse_args()
 
@@ -28,14 +28,16 @@ class StockRegister(BaseCommand):
 
         for index, data in datasets.iterrows():
             if is_stock_series(data):
-                if not self.stock_service.is_exist_equal(data['Name']):
-                    self.stock_service.create(self.market_name, data['Symbol'], data['Name'])
-                    self.print.info(f"Register {data['Name']}")
-
-                else:
-                    self.print.warning(f"{data['Name']} is already registered")
+                self.create_stock(data)
             else:
                 self.print.warning(f"{data['Name']} is not stock")
+
+    def create_stock(self, data: Series):
+        if not self.stock_service.is_exist_equal(data['Name']):
+            self.stock_service.create(self.market_name, data['Symbol'], data['Name'])
+            self.print.info(f"Register {data['Name']}")
+        else:
+            self.print.warning(f"{data['Name']} is already registered")
 
 
 def is_stock_series(data: Series) -> bool:
