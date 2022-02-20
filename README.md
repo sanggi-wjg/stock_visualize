@@ -1,6 +1,6 @@
 # Stock Visualize
 
-## 구조
+### 구조
 ```shell
 app / commands : Executable soruce code
     / service : Model service
@@ -10,7 +10,29 @@ app / commands : Executable soruce code
 tests / ... : Test source code
 ```
 
-## 참고
+### Lint
+1. pip install flake8
+2. .flake8 작성
+```shell
+# 실행
+flake8 .
+```
+
+### Coverage
+1. pip install coverage
+2. .coveragerc 작성
+```shell
+coverage run --source='.' -m unittest discover tests/ test_*.py
+
+# 통계
+coverage report
+# Html 로
+coverage html
+# 이전 기록 삭제
+coverage erase
+```
+
+### 참고
 ```shell
 # SqlAlchemy
 https://hackersandslackers.com/sqlalchemy-data-models
