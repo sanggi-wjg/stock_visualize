@@ -1,7 +1,7 @@
 import datetime
 
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship, Session
-from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Numeric, UniqueConstraint
+from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Numeric, Date, UniqueConstraint
 
 from app.exceptions import MarketException
 
@@ -38,9 +38,9 @@ class Market(Base):
 
 class Stock(Base):
     __tablename__ = 'stocks'
-    # __table_args__ = (
-    #     UniqueConstraint('stock_code', 'stock_name', name = 'unique_stocks_stock'),
-    # )
+    __table_args__ = (
+        UniqueConstraint('stock_code', 'stock_name', name = 'unique_stocks_stock'),
+    )
 
     id = Column(Integer, primary_key = True, autoincrement = "auto")
 
@@ -65,22 +65,49 @@ class Stock(Base):
 
 class StockPrice(Base):
     __tablename__ = 'stock_prices'
-    # __table_args__ = (
-    #     UniqueConstraint('stock_id', 'date', name = 'unique_stock_price_stock_date'),
-    # )
+    __table_args__ = (
+        UniqueConstraint('stock_id', 'date', name = 'unique_stock_price_stock_date'),
+    )
 
     id = Column(Integer, primary_key = True, autoincrement = "auto")
 
     # 정방향 relation
-    stock_id = Column(Integer, ForeignKey("stocks.id"))
+    stock_id = Column(Integer, ForeignKey("stocks.id"), nullable = False)
     stock = relationship("Stock", back_populates = "stock_prices")
 
-    price_open = Column(Numeric, nullable = False)
-    price_high = Column(Numeric, nullable = False)
-    price_low = Column(Numeric, nullable = False)
-    price_close = Column(Numeric, nullable = False)
+    price_open = Column(Numeric(10, 2), nullable = False)
+    price_close = Column(Numeric(10, 2), nullable = False)
+    price_high = Column(Numeric(10, 2), nullable = False)
+    price_low = Column(Numeric(10, 2), nullable = False)
 
-    date = Column(DateTime(), nullable = False)
+    date = Column(Date(), nullable = False)
+
+    def __repr__(self):
+        return f"<StockPrice(id={self.id} stock_id={self.stock_id} date={self.date} close={self.price_close})>"
+
+    def __init__(self, stock_id: int, price_open: float, price_close: float, price_high: float, price_low: float, date: str):
+        self.stock_id = stock_id
+        self.price_open = price_open
+        self.price_close = price_close
+        self.price_high = price_high
+        self.price_low = price_low
+        self.date = date
+
+
+class Price(object):
+    """
+    Price DTO
+    """
+    open: float
+    high: float
+    low: float
+    close: float
+
+    def __init__(self, open, close, high, low):
+        self.open = open
+        self.close = close
+        self.high = high
+        self.low = low
 
 
 Base.metadata.create_all(engine)
