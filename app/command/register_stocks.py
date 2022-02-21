@@ -6,7 +6,8 @@ import argparse
 from pandas import Series
 
 from app.command.base_command import BaseCommand
-from app.service.market_service import StockService, MarketService
+from app.service.market_service import MarketService
+from app.service.stock_service import StockService
 
 
 class StockRegister(BaseCommand):

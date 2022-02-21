@@ -16,9 +16,8 @@ class MarketService:
     def close(self):
         self.session.close()
 
-    def create(self, market_name: str) -> Market:
+    def create(self, market: Market) -> Market:
         try:
-            market = Market(market_name.upper())
             self.session.add(market)
             self.session.commit()
             return market

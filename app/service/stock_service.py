@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.exc import NoResultFound
 
 from app.database import Stock, Market, session_factory
@@ -15,9 +17,8 @@ class StockService:
     def close(self):
         self.session.close()
 
-    def create(self, market: Market, stock_code: str, stock_name: str) -> Stock:
+    def create(self, stock: Stock) -> Stock:
         try:
-            stock = Stock(market.id, stock_code, stock_name)
             self.session.add(stock)
             self.session.commit()
             return stock
@@ -33,11 +34,20 @@ class StockService:
         except NoResultFound:
             return False
 
-    def get_equal_name(self, stock_name: str):
+    def get_equal_name(self, stock_name: str) -> Stock:
         try:
             return self.session.query(Stock).filter(Stock.stock_name == stock_name).one()
         except NoResultFound:
             raise StockNotFound(f"Stock({stock_name}) not found")
+
+    def get_equal_code(self, stock_code: str) -> Stock:
+        try:
+            return self.session.query(Stock).filter(Stock.stock_code == stock_code).one()
+        except NoResultFound:
+            raise StockNotFound(f"Stock({stock_code}) not found")
+
+    def lists(self) -> List[Stock]:
+        return self.session.query(Stock).all()
 
     def delete_equal(self, stock_name: str):
         stocks = self.session.query(Stock).filter(Stock.stock_name == stock_name).all()

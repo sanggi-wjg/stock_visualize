@@ -1,7 +1,6 @@
 import unittest
-from unittest import skip
 
-from app.database import Price
+from app.database import Price, StockPrice, Market, Stock
 from app.exceptions import MarketException
 from app.service.market_service import MarketService
 from app.service.stock_price_service import StockPriceService
@@ -23,7 +22,7 @@ class MarketServiceTestCase(unittest.TestCase):
         market_name = "test"
 
         # when
-        market = self.market_service.create(market_name)
+        market = self.market_service.create(Market(market_name))
 
         # then
         self.assertEqual(market.market_name, market_name.upper())
@@ -35,7 +34,7 @@ class MarketServiceTestCase(unittest.TestCase):
         # when
         # then
         with self.assertRaises(MarketException):
-            self.market_service.create(market_name)
+            self.market_service.create(Market(market_name))
 
     def test_get_or_create(self):
         # given
@@ -92,7 +91,7 @@ class StockServiceTestCase(unittest.TestCase):
         stock_code, stock_name = "1", "삼성"
 
         # when
-        stock = self.stock_service.create(self.market, stock_code, stock_name)
+        stock = self.stock_service.create(Stock(self.market.id, stock_code, stock_name))
 
         # then
         self.assertEqual(stock.stock_code, stock_code)
@@ -103,7 +102,7 @@ class StockServiceTestCase(unittest.TestCase):
         stock_code, stock_name = "1", "삼성"
 
         # when
-        stock = self.stock_service.create(self.market, stock_code, stock_name)
+        stock = self.stock_service.create(Stock(self.market.id, stock_code, stock_name))
 
         is_exist = self.stock_service.is_exist_equal(stock_name)
         is_exist2 = self.stock_service.is_exist_equal("삼성2")
@@ -117,7 +116,7 @@ class StockServiceTestCase(unittest.TestCase):
         stock_code, stock_name = "1", "삼성"
 
         # when
-        self.stock_service.create(self.market, stock_code, stock_name)
+        self.stock_service.create(Stock(self.market.id, stock_code, stock_name))
 
         stock = self.stock_service.get_equal_name(stock_name)
 
@@ -138,7 +137,8 @@ class StockPriceServiceTestCase(unittest.TestCase):
 
         market = self.market_service.get_or_create(market_name)
         self.stock_service.delete_equal(stock_name)
-        self.stock = self.stock_service.create(market, stock_code, stock_name)
+
+        self.stock = self.stock_service.create(Stock(market.id, stock_code, stock_name))
 
     def tearDown(self) -> None:
         market_name = "test"
@@ -156,14 +156,16 @@ class StockPriceServiceTestCase(unittest.TestCase):
     def test_create(self):
         # given
         date = "2022-02-21"
-        price = Price(100.0, 150.0, 200.0, 50.0)
+        price = Price(100.0, 150.0, 200.0, 50.0, 0.001234)
 
         # when
-        stock_price = self.stock_price_service.create(self.stock, price, date)
+        stock_price = self.stock_price_service.create(
+            StockPrice(self.stock.id, price, date)
+        )
 
         # then
-        print(stock_price)
         self.assertEqual(price.open, stock_price.price_open)
         self.assertEqual(price.close, stock_price.price_close)
         self.assertEqual(price.high, stock_price.price_high)
         self.assertEqual(price.low, stock_price.price_low)
+        self.assertEqual(price.change, stock_price.price_change)

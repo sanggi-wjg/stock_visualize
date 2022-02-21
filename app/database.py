@@ -1,4 +1,6 @@
 import datetime
+import math
+from decimal import Decimal
 
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship, Session
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Numeric, Date, UniqueConstraint
@@ -79,18 +81,20 @@ class StockPrice(Base):
     price_close = Column(Numeric(10, 2), nullable = False)
     price_high = Column(Numeric(10, 2), nullable = False)
     price_low = Column(Numeric(10, 2), nullable = False)
+    price_change = Column(Numeric(10, 6), nullable = False)
 
     date = Column(Date(), nullable = False)
 
     def __repr__(self):
         return f"<StockPrice(id={self.id} stock_id={self.stock_id} date={self.date} close={self.price_close})>"
 
-    def __init__(self, stock_id: int, price_open: float, price_close: float, price_high: float, price_low: float, date: str):
+    def __init__(self, stock_id: int, price: 'Price', date: str):
         self.stock_id = stock_id
-        self.price_open = price_open
-        self.price_close = price_close
-        self.price_high = price_high
-        self.price_low = price_low
+        self.price_open = price.open
+        self.price_close = price.close
+        self.price_high = price.high
+        self.price_low = price.low
+        self.price_change = price.change
         self.date = date
 
 
@@ -98,16 +102,21 @@ class Price(object):
     """
     Price DTO
     """
-    open: float
-    high: float
-    low: float
-    close: float
+    open: Decimal
+    high: Decimal
+    low: Decimal
+    close: Decimal
+    change: Decimal
 
-    def __init__(self, open, close, high, low):
-        self.open = open
-        self.close = close
-        self.high = high
-        self.low = low
+    def __init__(self, open: float, close: float, high: float, low: float, change: float):
+        if math.isnan(change):
+            change = 0.0
+
+        self.open = Decimal(str(open))
+        self.close = Decimal(str(close))
+        self.high = Decimal(str(high))
+        self.low = Decimal(str(low))
+        self.change = Decimal(str(change))
 
 
 Base.metadata.create_all(engine)
