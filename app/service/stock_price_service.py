@@ -3,9 +3,10 @@ from typing import List
 from pandas import DataFrame
 from sqlalchemy.exc import NoResultFound
 
-from app.database import session_factory, StockPrice, Stock, Price
+from app.database import session_factory, StockPrice, Stock
 from app.exceptions import StockNotFound
 from app.service.stock_service import StockService
+from app.vo import Price
 
 
 class StockPriceService:

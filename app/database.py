@@ -1,11 +1,10 @@
 import datetime
-import math
-from decimal import Decimal
 
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship, Session
 from sqlalchemy import create_engine, Column, Integer, String, DateTime, ForeignKey, Numeric, Date, UniqueConstraint
 
 from app.exceptions import MarketException
+from app.vo import Price
 
 engine = create_engine(
     "mysql+pymysql://root:rootroot@192.168.10.151:33061/Sample",
@@ -96,27 +95,6 @@ class StockPrice(Base):
         self.price_low = price.low
         self.price_change = price.change
         self.date = date
-
-
-class Price(object):
-    """
-    Price DTO
-    """
-    open: Decimal
-    high: Decimal
-    low: Decimal
-    close: Decimal
-    change: Decimal
-
-    def __init__(self, open: float, close: float, high: float, low: float, change: float):
-        if math.isnan(change):
-            change = 0.0
-
-        self.open = Decimal(str(open))
-        self.close = Decimal(str(close))
-        self.high = Decimal(str(high))
-        self.low = Decimal(str(low))
-        self.change = Decimal(str(change))
 
 
 Base.metadata.create_all(engine)

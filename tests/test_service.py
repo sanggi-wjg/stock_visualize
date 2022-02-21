@@ -1,10 +1,11 @@
 import unittest
 
-from app.database import Price, StockPrice, Market, Stock
+from app.database import StockPrice, Market, Stock
 from app.exceptions import MarketException
 from app.service.market_service import MarketService
 from app.service.stock_price_service import StockPriceService
 from app.service.stock_service import StockService
+from app.vo import Price
 
 
 class MarketServiceTestCase(unittest.TestCase):
