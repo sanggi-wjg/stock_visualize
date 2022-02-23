@@ -14,22 +14,21 @@ class StockPriceRegister(BaseCommand):
     stock_service: StockService = StockService()
     stock_price_service: StockPriceService = StockPriceService()
 
-    stock_code: str = ""
-
     def add_arguments(self):
-        self.parser.add_argument('-stock_name', default = '삼성전자',
+        self.parser.add_argument('-stock_name', default = '삼성전자', type = str,
                                  choices = [stock.stock_name for stock in self.stock_service.lists()])
         # self.parser.add_argument('-s', '--start', default = '1980-01-01', help = 'Start Date',
         #                          choices = [stock.stock_code for stock in self.stock_service.lists()])
         # self.parser.add_argument('-e', '--end', default = '2099-12-31', help = 'End Date',
         #                          choices = [stock.stock_code for stock in self.stock_service.lists()])
 
-        args = self.parser.parse_args()
-        self.stock_code = self.stock_service.get_equal_name(args.stock_name).stock_code
-        self.print.info(f"{self.help} {args.stock_name}({self.stock_code})")
+        self.args = self.parser.parse_args()
 
     def handle(self, *args, **kwargs):
-        df: DataFrame = fdr.DataReader(self.stock_code)
+        stock_code = self.stock_service.get_equal_name(self.args.stock_name).stock_code
+        self.print.info(f"{self.args.stock_name}({stock_code})")
+
+        df: DataFrame = fdr.DataReader(stock_code)
         self.stock_price_service.create_dataframe(df)
         self.print.info(f"Done")
 

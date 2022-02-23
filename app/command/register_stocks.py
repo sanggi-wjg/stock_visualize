@@ -18,7 +18,7 @@ class StockRegister(BaseCommand):
     market_name: str = ""
 
     def add_arguments(self):
-        self.parser.add_argument('-market_name', default = 'kosdaq',
+        self.parser.add_argument('-market_name', default = 'kosdaq', type = str,
                                  choices = [market.market_name for market in self.market_service.lists()])
         args = self.parser.parse_args()
 

@@ -1,10 +1,12 @@
-from argparse import Namespace, ArgumentParser
+from argparse import ArgumentParser, Namespace
 from collections import namedtuple
 
 from app.colorful import green, yellow, red
 
 
 class BaseCommand:
+    help: str = ""
+    args: Namespace = None
 
     def __init__(self, parser: ArgumentParser):
         self.print = namedtuple('CommandPrint', ['info', 'warning', 'error'])
@@ -15,10 +17,16 @@ class BaseCommand:
 
         # self.args = args
         self.parser = parser
+        self.setup()
+
+    def setup(self):
+        pass
 
     def operate(self):
+        self.print.info(f"START Command: {self.help or None}")
         self.add_arguments()
         self.handle()
+        self.print.info(f"FINISH Command")
 
     def add_arguments(self):
         raise NotImplementedError("add_arguments must declared")

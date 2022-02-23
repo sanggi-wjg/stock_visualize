@@ -27,7 +27,18 @@ class StockNotFound(StockException):
 
 
 #########################################
-#
+# StockPrice Entity Exception
 #########################################
 class StockPriceException(Exception):
+    pass
+
+
+#########################################
+# Commands Exception
+#########################################
+class CommandException(Exception):
+    pass
+
+
+class InvalidCommandArgs(CommandException):
     pass
