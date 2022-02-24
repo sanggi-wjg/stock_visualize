@@ -42,3 +42,14 @@ class CommandException(Exception):
 
 class InvalidCommandArgs(CommandException):
     pass
+
+
+#########################################
+# Chart Exception
+#########################################
+class ChartException(Exception):
+    pass
+
+
+class InvalidConvertOption(ChartException):
+    pass

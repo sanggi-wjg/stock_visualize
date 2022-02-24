@@ -32,9 +32,9 @@ class StockPriceService:
             self.session.rollback()
             raise e
 
-    def create_dataframe(self, dataframe: DataFrame):
+    def create_dataframe(self, dataframe: DataFrame, stock_code: str):
         try:
-            stock = self.stock_service.get_equal_code("005930")
+            stock = self.stock_service.get_equal_code(stock_code)
         except StockNotFound as e:
             raise e
         else:

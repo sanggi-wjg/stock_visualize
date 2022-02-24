@@ -1,27 +1,56 @@
 # Stock Visualize
 
-### 구조
+## Usage
 ```shell
-app / commands : Executable soruce code
-    / service : Model service
-    / database : SqlAlchemy and entities
-    / exceptions : exceptions
+1. command / register_markets  
+    DB에 Market 등록 (Kospi, Kosdaq, ...)
+
+2. command / register_stocks  
+    DB에 Stock 등록 (삼성전자, NAVER ...)   
+
+3. command / register_stock_prices
+    DB에 StockPrice 등록
+```
+
+## TODO:
+* Index, IndexPrice (Dollar, Kospi, Nasdaq, WTI, ...) 구현
+* [ ] Entity
+* [ ] Service
+* [ ] Commands
+ 
+
+* 또 뭐해야 하징?
+
+## Structure
+```shell
+app / commands / ...  : Executable service code
+    / lib      / ...  : Library service code 
+    / service  / ...  : Model service
+    / database        : SqlAlchemy and Entities
+    / exceptions      : Exceptions
+    / utils           : Util code
+    / vo              : Value Objects
+    / constants       : Constants
+
+docker / ... : Dockerfile or docker-compose file 
 
 tests / ... : Test source code
 ```
 
 ### Lint
+```shell
 1. pip install flake8
 2. .flake8 작성
-```shell
+
 # 실행
 flake8 .
 ```
 
 ### Coverage
+```shell
 1. pip install coverage
 2. .coveragerc 작성
-```shell
+
 coverage run --source='.' -m unittest discover tests/ test_*.py
 
 # 통계
