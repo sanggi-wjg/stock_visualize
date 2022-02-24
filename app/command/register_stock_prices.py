@@ -4,6 +4,7 @@ import FinanceDataReader as fdr
 from pandas import DataFrame
 
 from app.command.base_command import BaseCommand
+from app.exceptions import StockNotFound
 from app.service.stock_price_service import StockPriceService
 from app.service.stock_service import StockService
 
@@ -15,27 +16,32 @@ class StockPriceRegister(BaseCommand):
     stock_price_service: StockPriceService = StockPriceService()
 
     def add_arguments(self):
-        self.parser.add_argument('-stock_name', default = '삼성전자', type = str, help = 'Stock name',
-                                 choices = [stock.stock_name for stock in self.stock_service.lists()])
-        # self.parser.add_argument('-s', '--start', default = '1980-01-01', help = 'Start Date',
-        #                          choices = [stock.stock_code for stock in self.stock_service.lists()])
-        # self.parser.add_argument('-e', '--end', default = '2099-12-31', help = 'End Date',
-        #                          choices = [stock.stock_code for stock in self.stock_service.lists()])
+        self.parser.add_argument('-t', '--targets', nargs = '+',
+                                 help = 'Stock names (-t NHN 카카오 삼성전자)', required = True)
+        # self.parser.add_argument('-stock_name', default = '삼성전자', type = str, help = 'Stock name',
+        #                          choices = [stock.stock_name for stock in self.stock_service.lists()])
 
         self.args = self.parser.parse_args()
 
     def handle(self, *args, **kwargs):
-        # get stock
-        stock_code = self.stock_service.get_equal_name(self.args.stock_name).stock_code
-        self.print.info(f"{self.args.stock_name}({stock_code})")
+        for stock_name in self.args.targets:
+            self.try_register(stock_name)
 
-        # get request stock dataframe
-        dataframe: DataFrame = fdr.DataReader(stock_code)
-        self.print.warning(dataframe.tail(5))
+    def try_register(self, stock_name: str):
+        try:
+            stock = self.stock_service.get_equal_name(stock_name)
+            self.print.info(f"{stock.stock_name}({stock.stock_code})")
 
-        # register stock prices
-        self.stock_price_service.create_dataframe(dataframe, stock_code)
-        self.print.info(f"Done")
+            # get request stock dataframe
+            dataframe: DataFrame = fdr.DataReader(stock.stock_code)
+            # self.print.warning(dataframe.tail(5))
+
+            # register stock prices
+            self.stock_price_service.create_all_with_dataframe(dataframe, stock.stock_code)
+            self.print.info(f"Done")
+
+        except StockNotFound as e:
+            self.print.error(e)
 
 
 register = StockPriceRegister(argparse.ArgumentParser())

@@ -27,10 +27,10 @@ class StockChartCreator(BaseCommand):
         self.parser.add_argument('-chart_term', default = 10, type = int,
                                  help = "미구현 chart 여러개 그린다고 하면 사용하자")
 
-        self.parser.add_argument('-targets', nargs = '+', type = list, required = True)
+        self.parser.add_argument('-t', '--targets', nargs = '+',
+                                 help = 'Stock names (-t NHN 카카오 NAVER)', required = True)
 
         self.args = self.parser.parse_args()
-        # self.args.targets = ['삼성전자', 'NAVER']
 
         if not self.args.start_date or not self.args.end_date:
             raise InvalidCommandArgs("Invalid argument: date")  # dateformat 체크 구찮
