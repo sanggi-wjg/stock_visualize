@@ -24,6 +24,10 @@ class StockChartCreator(BaseCommand):
                                  help = "Start date")
         self.parser.add_argument('-end_date', default = get_today_date_format('%Y-%m-%d'), type = str,
                                  help = "End date")
+        self.parser.add_argument('-s', '--standard', default = False, type = bool,
+                                 help = '표준화')
+        self.parser.add_argument('-n', '--normal', default = False, type = bool,
+                                 help = '정규화')
         self.parser.add_argument('-chart_term', default = 10, type = int,
                                  help = "미구현 chart 여러개 그린다고 하면 사용하자")
 
@@ -36,6 +40,8 @@ class StockChartCreator(BaseCommand):
             raise InvalidCommandArgs("Invalid argument: date")  # dateformat 체크 구찮
         if not self.args.targets:
             raise InvalidCommandArgs("Invalid argument: targets")
+        if self.args.standard and self.args.normal:
+            raise InvalidCommandArgs("Invalid argument: both standard and normal can't be true")
 
     def handle(self, *args, **kwargs):
         stock_names = self.clean_args_targets()
@@ -67,8 +73,9 @@ class StockChartCreator(BaseCommand):
         """
         return [
             DataFrameConverter.stock_price_to_dataframe(
-                self.stock_price_service.get_price_list(
-                    stock_name, self.args.start_date, self.args.end_date))
+                self.stock_price_service.get_price_list(stock_name, self.args.start_date, self.args.end_date),
+                standardization = self.args.standard, normalization = self.args.normal
+            )
             for stock_name in stock_names
         ]
 
