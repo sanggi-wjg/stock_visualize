@@ -70,7 +70,7 @@ class DataFrameConverter:
         cls,
         stock_prices: List[StockPrice],
         standardization: bool = False,
-        normalization = False
+        normalization: bool = False
     ) -> DataFrame:
         """
         :param stock_prices: StockPrice Entity
@@ -109,6 +109,7 @@ def standardize(dataframe: DataFrame) -> DataFrame:
     정규화, 표준화 https://bskyvision.com/849
     :return: 표준화
     """
+    dataframe['Price'] = pd.to_numeric(dataframe['Price'])
     mean, std = dataframe.mean(axis = 0), dataframe.std(axis = 0)
     return (dataframe["Price"] - mean["Price"]) / std["Price"]
 

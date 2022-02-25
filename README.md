@@ -1,4 +1,15 @@
 # Stock Visualize
+Not everyone should be allowed to vote
+
+## Development Environment
+[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)
+[![MySQL 8.0](https://img.shields.io/badge/MySQL-8.0-blue.svg)]()
+
+```shell
+SQLAlchemy, finance-datareader
+
+requriements.txt
+```
 
 ## Usage
 ```shell
@@ -10,16 +21,10 @@
 
 3. command / register_stock_prices
     DB에 StockPrice 등록
+    
+4. command / craete_stock_chart
 ```
 
-## TODO:
-* Index, IndexPrice (Dollar, Kospi, Nasdaq, WTI, ...) 구현
-* [ ] Entity
-* [ ] Service
-* [ ] Commands
- 
-
-* 또 뭐해야 하징?
 
 ## Structure
 ```shell
@@ -37,6 +42,7 @@ docker / ... : Dockerfile or docker-compose file
 tests / ... : Test source code
 ```
 
+
 ### Lint
 ```shell
 1. pip install flake8
@@ -45,6 +51,7 @@ tests / ... : Test source code
 # 실행
 flake8 .
 ```
+
 
 ### Coverage
 ```shell
@@ -61,13 +68,3 @@ coverage html
 coverage erase
 ```
 
-### 참고
-```shell
-# SqlAlchemy
-https://hackersandslackers.com/sqlalchemy-data-models
-
-https://dongwooklee96.github.io/post/2021/03/18/sqlalchemy%EC%97%90%EC%84%9C-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EC%82%AC%EC%9A%A9%EB%B2%95.html
-
-# Finance data reader
-https://github.com/FinanceData/FinanceDataReader
-```
