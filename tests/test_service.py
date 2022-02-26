@@ -1,4 +1,5 @@
 import unittest
+from unittest import skip
 
 from app.database import StockPrice, Market, Stock, Index, IndexPrice
 from app.exceptions import MarketException
@@ -156,6 +157,7 @@ class StockPriceServiceTestCase(unittest.TestCase):
         self.stock_service.close()
         self.stock_price_service.close()
 
+    @skip(reason = "only local")
     def test_create(self):
         # given
         date = "2022-02-21"

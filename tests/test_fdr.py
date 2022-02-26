@@ -19,7 +19,7 @@ class FdrTestCase(unittest.TestCase):
     stock_service: StockService = StockService()
     stock_price_service: StockPriceService = StockPriceService()
 
-    @skip(reason = "just test")
+    @skip(reason = "only local")
     def test_get_spec_stock(self):
         stock_code = "005930"
         df: DataFrame = fdr.DataReader(stock_code, start = "2022-02-01")
@@ -27,6 +27,7 @@ class FdrTestCase(unittest.TestCase):
 
         self.stock_price_service.create_all_with_dataframe(df, stock_code)
 
+    @skip(reason = "only local")
     def test_get_index(self):
         kospi = fdr.DataReader("KS11", "2022-01-01")
         print(kospi)
