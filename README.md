@@ -1,3 +1,5 @@
+[![Lint && Test](https://github.com/sanggi-wjg/stock_visualize/actions/workflows/lint_and_test.yml/badge.svg)](https://github.com/sanggi-wjg/stock_visualize/actions/workflows/lint_and_test.yml)
+
 # Stock Visualize
 Not everyone should be allowed to vote
 
