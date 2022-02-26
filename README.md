@@ -40,6 +40,9 @@ app / commands / ...  : Executable service code
 docker / ... : Dockerfile or docker-compose file 
 
 tests / ... : Test source code
+(command line 으로 전체 다 테스트 해보고 싶다면
+database engine 이 사용중인 db 말고 다른 db로 선택한 후에 
+python -m unittest discover)
 ```
 
 

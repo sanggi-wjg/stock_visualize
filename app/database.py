@@ -9,6 +9,7 @@ from app.vo import Price
 
 
 def create_engine_factory():
+
     if DATABASE_ENGINE == 'mysql':
         return create_engine(DATABASE_DSN, isolation_level = 'REPEATABLE READ', echo = False)
     elif DATABASE_ENGINE == 'sqlite':

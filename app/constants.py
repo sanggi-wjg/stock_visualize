@@ -10,17 +10,17 @@ DATABASE = {
 }
 
 
-def get_database_dsn(db_engine: str = "mysql") -> str:
-    if db_engine == "mysql":
+def get_database_dsn() -> str:
+    if DATABASE_ENGINE == "mysql":
         return f"mysql+pymysql://{DATABASE['USER']}:{DATABASE['PASSWORD']}@{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['NAME']}"
-    elif db_engine == "sqlite":
+    elif DATABASE_ENGINE == "sqlite":
         return "sqlite:///:memory:"
     else:
-        raise Exception(f"not implemented db_engine:{db_engine}")
+        raise Exception(f"not implemented db_engine:{DATABASE_ENGINE}")
 
 
-DATABASE_ENGINE = os.environ.get("DATABASE_ENGINE", "sqlite")
-DATABASE_DSN = get_database_dsn(DATABASE_ENGINE)
+DATABASE_ENGINE = os.environ.get("DATABASE_ENGINE", "mysql")
+DATABASE_DSN = get_database_dsn()
 
 # Setting Constants
 ALLOW_MARKETS = ['KOSPI', 'KOSDAQ', 'TEST']
