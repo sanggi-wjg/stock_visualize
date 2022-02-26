@@ -27,6 +27,10 @@ class FdrTestCase(unittest.TestCase):
 
         self.stock_price_service.create_all_with_dataframe(df, stock_code)
 
+    def test_get_index(self):
+        kospi = fdr.DataReader("KS11", "2022-01-01")
+        print(kospi)
+
 
 class ChartUtilsTestCase(unittest.TestCase):
 

@@ -38,7 +38,7 @@ class StockPriceRegister(BaseCommand):
 
             # register stock prices
             self.stock_price_service.create_all_with_dataframe(dataframe, stock.stock_code)
-            self.print.info(f"Done")
+            self.print.info("Done")
 
         except StockNotFound as e:
             self.print.error(e)

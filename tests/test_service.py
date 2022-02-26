@@ -1,7 +1,9 @@
 import unittest
 
-from app.database import StockPrice, Market, Stock
+from app.database import StockPrice, Market, Stock, Index, IndexPrice
 from app.exceptions import MarketException
+from app.service.index_price_service import IndexPriceService
+from app.service.index_service import IndexService
 from app.service.market_service import MarketService
 from app.service.stock_price_service import StockPriceService
 from app.service.stock_service import StockService
@@ -170,3 +172,35 @@ class StockPriceServiceTestCase(unittest.TestCase):
         self.assertEqual(price.high, stock_price.price_high)
         self.assertEqual(price.low, stock_price.price_low)
         self.assertEqual(price.change, stock_price.price_change)
+
+
+class IndexServiceTestCase(unittest.TestCase):
+    index_service: IndexService = IndexService(test_mode = True)
+
+    def test_create(self):
+        # given
+        index = Index(name = "KS11")
+
+        # when
+        index = self.index_service.create(index)
+
+        # then
+        self.assertEqual(index.index_name, "KS11")
+
+
+class IndexPriceServiceTestCase(unittest.TestCase):
+    index_service: IndexService = IndexService(test_mode = True)
+    index_price_service: IndexPriceService = IndexPriceService(test_mode = True)
+
+    def test_create(self):
+        # given
+        index = Index(name = "KS11")
+        index = self.index_service.create(index)
+
+        # when
+        index_price = IndexPrice(index.id, Price(100.0, 150.0, 200.0, 50.0, 0.001234), '2022-02-01')
+        index_price = self.index_price_service.create(index_price)
+
+        # then
+        print(index)
+        print(index_price)

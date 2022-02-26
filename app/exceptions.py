@@ -34,6 +34,13 @@ class StockPriceException(Exception):
 
 
 #########################################
+# StockPrice Entity Exception
+#########################################
+class IndexException(Exception):
+    pass
+
+
+#########################################
 # Commands Exception
 #########################################
 class CommandException(Exception):

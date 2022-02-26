@@ -1,0 +1,5 @@
+[run]
+omit =
+    tests/*
+    app/command/*
+    app/lib/chart/chart_creator.py

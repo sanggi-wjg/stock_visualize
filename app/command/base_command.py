@@ -26,7 +26,7 @@ class BaseCommand:
         self.print.info(f"START Command: {self.help or None}")
         self.add_arguments()
         self.handle()
-        self.print.info(f"FINISH Command")
+        self.print.info("FINISH Command")
 
     def add_arguments(self):
         raise NotImplementedError("add_arguments must declared")
