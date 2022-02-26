@@ -13,8 +13,8 @@ from app.service.stock_service import StockService
 from app.utils import get_today_date_format
 
 
-class StockChartCreator(BaseCommand):
-    help = 'Create stock chart'
+class ChartCreator(BaseCommand):
+    help = 'Create chart (그래프 차트 그리기)'
 
     stock_service: StockService = StockService()
     stock_price_service: StockPriceService = StockPriceService()
@@ -29,7 +29,7 @@ class StockChartCreator(BaseCommand):
         self.parser.add_argument('-n', '--normal', default = False, type = bool,
                                  help = '정규화')
         self.parser.add_argument('-chart_term', default = 10, type = int,
-                                 help = "미구현 chart 여러개 그린다고 하면 사용하자")
+                                 help = "(!미구현) chart 여러개 그린다고 하면 사용하자")
 
         self.parser.add_argument('-t', '--targets', nargs = '+',
                                  help = 'Stock names (-t NHN 카카오 NAVER)', required = True)
@@ -80,5 +80,5 @@ class StockChartCreator(BaseCommand):
         ]
 
 
-stock_chart_creator = StockChartCreator(argparse.ArgumentParser())
-stock_chart_creator.operate()
+creator = ChartCreator(argparse.ArgumentParser())
+creator.operate()
