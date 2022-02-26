@@ -1,4 +1,5 @@
 [![Lint && Test](https://github.com/sanggi-wjg/stock_visualize/actions/workflows/lint_and_test.yml/badge.svg)](https://github.com/sanggi-wjg/stock_visualize/actions/workflows/lint_and_test.yml)
+![Coverage](coverage.svg)
 
 # Stock Visualize
 Not everyone should be allowed to vote
@@ -73,4 +74,8 @@ coverage html
 coverage erase
 ```
 
-
+#### Create Coverage Badge
+```shell
+pip install coverage-badge
+coverage-badge -o coverage.svg
+```
