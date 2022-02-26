@@ -1,6 +1,7 @@
 import unittest
 from unittest import skip
 
+from app.constants import ALLOW_INDEXES
 from app.database import StockPrice, Market, Stock, Index, IndexPrice
 from app.exceptions import MarketException
 from app.service.index_price_service import IndexPriceService
@@ -128,6 +129,12 @@ class StockServiceTestCase(unittest.TestCase):
         self.assertEqual(stock.stock_code, stock_code)
         self.assertEqual(stock.stock_name, stock_name)
 
+    def test_reverse_relation(self):
+        stock = self.stock_service.get_equal_name("삼성전자")
+
+        for price in stock.stock_prices:
+            self.assertIsInstance(price, StockPrice)
+
 
 class StockPriceServiceTestCase(unittest.TestCase):
     market_service: MarketService = MarketService()
@@ -189,6 +196,13 @@ class IndexServiceTestCase(unittest.TestCase):
         # then
         self.assertEqual(index.index_name, "KS11")
 
+    def test_get_or_create(self):
+        # given
+        # when
+        # then
+        for name in ALLOW_INDEXES:
+            self.index_service.get_or_create(name)
+
 
 class IndexPriceServiceTestCase(unittest.TestCase):
     index_service: IndexService = IndexService(test_mode = True)
@@ -204,5 +218,5 @@ class IndexPriceServiceTestCase(unittest.TestCase):
         index_price = self.index_price_service.create(index_price)
 
         # then
-        print(index)
-        print(index_price)
+        # print(index)
+        # print(index_price)

@@ -34,9 +34,20 @@ class StockPriceException(Exception):
 
 
 #########################################
-# StockPrice Entity Exception
+# Index Entity Exception
 #########################################
 class IndexException(Exception):
+    pass
+
+
+class IndexNotFound(IndexException):
+    pass
+
+
+#########################################
+# IndexPrice Entity Exception
+#########################################
+class IndexPriceException(Exception):
     pass
 
 
