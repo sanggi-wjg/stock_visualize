@@ -1,0 +1,22 @@
+{
+  "name": "stock_visualize",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanggi-wjg/stock_visualize.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanggi-wjg/stock_visualize/issues"
+  },
+  "homepage": "https://github.com/sanggi-wjg/stock_visualize#readme"
+}
