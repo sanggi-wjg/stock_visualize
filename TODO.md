@@ -1,11 +1,14 @@
 ## TODO:
 * Index, IndexPrice (Dollar, Kospi, Nasdaq, WTI, ...) 구현
-* [ ] Entity
-* [ ] Service
-* [ ] Commands
+* [X] Entity
+* [X] Service
+* [X] Commands
  
 
-* 또 뭐해야 하징?
+* RADEME.md 파일 수정
+* [ ] commands 자세히
+* [ ] usage 자세히
+
 
 ### 참고
 ```shell

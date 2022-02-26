@@ -2,15 +2,24 @@
 ![Coverage](coverage.svg)
 
 # Stock Visualize
-Not everyone should be allowed to vote
+특정 주식 종목(삼성전자, NHN) 이나 특정 인덱스(환율, 금, KOSPI, S&P500) 등에 대해서
+그래프 차트를 그려줍니다.
+
+## Graph chart samples
+#### NHN, 카카오, 네이버 주가 비교
+![1](docs/1.png)
+#### NHN, 카카오, 네이버 주가 정규화 비교
+![2](docs/2.png)
 
 ## Development Environment
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)
 [![MySQL 8.0](https://img.shields.io/badge/MySQL-8.0-blue.svg)]()
 
 ```shell
-SQLAlchemy, finance-datareader
+Database 는 SQLAlchemy
+Data 는 finance-datareader
 
+이 외는 패키지는 아래 파일 참고
 requriements.txt
 ```
 
@@ -26,6 +35,9 @@ requriements.txt
     DB에 StockPrice 등록
     
 4. command / craete_stock_chart
+    Create graph chart
+    
+
 ```
 
 
@@ -79,3 +91,5 @@ coverage erase
 pip install coverage-badge
 coverage-badge -o coverage.svg
 ```
+
+Not everyone should be allowed to vote!
