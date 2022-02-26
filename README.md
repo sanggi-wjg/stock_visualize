@@ -59,37 +59,3 @@ tests / ... : Test source code
 database engine 이 사용중인 db 말고 다른 db로 선택한 후에 
 python -m unittest discover)
 ```
-
-
-### Lint
-```shell
-1. pip install flake8
-2. .flake8 작성
-
-# 실행
-flake8 .
-```
-
-
-### Coverage
-```shell
-1. pip install coverage
-2. .coveragerc 작성
-
-coverage run --source='.' -m unittest discover tests/ test_*.py
-
-# 통계
-coverage report
-# Html 로
-coverage html
-# 이전 기록 삭제
-coverage erase
-```
-
-#### Create Coverage Badge
-```shell
-pip install coverage-badge
-coverage-badge -o coverage.svg
-```
-
-Not everyone should be allowed to vote!
