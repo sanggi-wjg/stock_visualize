@@ -130,7 +130,7 @@ class StockServiceTestCase(unittest.TestCase):
         self.assertEqual(stock.stock_name, stock_name)
 
     def test_reverse_relation(self):
-        stock = self.stock_service.get_equal_name("삼성전자")
+        stock = self.stock_service.get_equal_name("삼성")
 
         for price in stock.stock_prices:
             self.assertIsInstance(price, StockPrice)
