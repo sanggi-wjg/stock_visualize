@@ -8,8 +8,11 @@
 ## Graph chart samples
 #### NHN, 카카오, 네이버 주가 비교
 ![1](docs/1.png)
+
 #### NHN, 카카오, 네이버 주가 정규화 비교
-![2](docs/2.png)
+![](docs/2.png)
+
+![](docs/3.png)
 
 ## Development Environment
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)

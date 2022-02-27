@@ -4,7 +4,7 @@ from typing import List
 from pandas import DataFrame
 from sqlalchemy.exc import NoResultFound
 
-from app.database import session_factory, StockPrice
+from app.database import session_factory, StockPrice, Stock
 from app.exceptions import StockNotFound
 from app.service.stock_service import StockService
 from app.vo import Price
@@ -59,13 +59,23 @@ class StockPriceService:
     def get_or_create(self):
         pass
 
+    def lists(self, stock_name: str, start_date: datetime, end_date: datetime) -> List[StockPrice]:
+        return self.session.query(
+            StockPrice.date, StockPrice.price_close, Stock.stock_name
+        ).join(Stock).filter(
+            StockPrice.stock_id == self.stock_service.get_equal_name(stock_name).id,
+            StockPrice.date >= start_date,
+            StockPrice.date <= end_date
+        ).order_by(StockPrice.date).all()
+
     def get_price_list(self, stock_name: str, start_date: datetime, end_date: datetime) -> List[StockPrice]:
         try:
-            stock = self.stock_service.get_equal_name(stock_name)
             return self.session.query(
-                StockPrice.date, StockPrice.price_close
+                StockPrice.date, StockPrice.price_close, Stock.stock_name
+            ).join(
+                Stock
             ).filter(
-                StockPrice.stock_id == stock.id,
+                StockPrice.stock_id == self.stock_service.get_equal_name(stock_name).id,
                 StockPrice.date >= start_date,
                 StockPrice.date <= end_date
             ).order_by(StockPrice.date).all()

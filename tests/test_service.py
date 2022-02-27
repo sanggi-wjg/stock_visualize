@@ -183,6 +183,16 @@ class StockPriceServiceTestCase(unittest.TestCase):
         self.assertEqual(price.change, stock_price.price_change)
 
 
+class StockPriceServiceTestCase2(unittest.TestCase):
+    stock_service: StockService = StockService()
+    stock_price_service: StockPriceService = StockPriceService()
+
+    def test_get_price_list(self):
+        stock_prices = self.stock_price_service.lists("삼성전자", "2022-01-01", "2022-02-01")
+        for stock_price in stock_prices:
+            print(stock_price)
+
+
 class IndexServiceTestCase(unittest.TestCase):
     index_service: IndexService = IndexService(test_mode = True)
 
