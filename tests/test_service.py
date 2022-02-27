@@ -129,6 +129,7 @@ class StockServiceTestCase(unittest.TestCase):
         self.assertEqual(stock.stock_code, stock_code)
         self.assertEqual(stock.stock_name, stock_name)
 
+    @skip(reason = "just test")
     def test_reverse_relation(self):
         stock = self.stock_service.get_equal_name("삼성")
 
