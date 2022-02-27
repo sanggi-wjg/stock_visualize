@@ -189,8 +189,8 @@ class StockPriceServiceTestCase2(unittest.TestCase):
 
     def test_get_price_list(self):
         stock_prices = self.stock_price_service.lists("삼성전자", "2022-01-01", "2022-02-01")
-        for stock_price in stock_prices:
-            print(stock_price)
+        # for stock_price in stock_prices:
+            # print(stock_price)
 
 
 class IndexServiceTestCase(unittest.TestCase):

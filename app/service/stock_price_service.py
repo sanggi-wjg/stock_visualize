@@ -63,10 +63,10 @@ class StockPriceService:
         return self.session.query(
             StockPrice.date, StockPrice.price_close, Stock.stock_name
         ).join(Stock).filter(
-            StockPrice.stock_id == self.stock_service.get_equal_name(stock_name).id,
+            Stock.stock_name == stock_name,
             StockPrice.date >= start_date,
             StockPrice.date <= end_date
-        ).order_by(StockPrice.date).all()
+        ).order_by(StockPrice.date)
 
     def get_price_list(self, stock_name: str, start_date: datetime, end_date: datetime) -> List[StockPrice]:
         try:
@@ -75,7 +75,7 @@ class StockPriceService:
             ).join(
                 Stock
             ).filter(
-                StockPrice.stock_id == self.stock_service.get_equal_name(stock_name).id,
+                Stock.stock_name == stock_name,
                 StockPrice.date >= start_date,
                 StockPrice.date <= end_date
             ).order_by(StockPrice.date).all()
