@@ -1,5 +1,6 @@
 # Database
 import os
+from typing import List, Dict, Tuple
 
 DATABASE = {
     'NAME'    : "Sample",
@@ -25,8 +26,25 @@ DATABASE_DSN = get_database_dsn()
 # Setting Constants
 ALLOW_MARKETS = ['KOSPI', 'KOSDAQ', 'TEST']
 ALLOW_INDEXES = [
-    'USD/KRW',  # 환율
+    # 환율
+    'USD/KRW',
+
+    # 미국
     'DJI',  # 다우 존스
     'US500',  # S&P 500
-    'KS11',  # kospi
+    'IXIC',  # NASDAQ
+    'VIX',  # 변동성 지수 (Greed And Fear)
+
+    # 한국
+    'KS11',  # KOSPI
+    'KS100',  # KOSPI 100
+    'KS200',  # KOSPI 200
+    'KQ11',  # KOSDAQ
+
+    # 선물
+    'NG',  # 천연 가스
+    'GC',  # 금
+    'SI',  # 은
+    'HG',  # 구리
+    'CL',  # WTI
 ]

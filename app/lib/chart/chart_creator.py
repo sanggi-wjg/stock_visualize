@@ -17,10 +17,10 @@ COLORS = plt_colors
 FINANCIAL_CRISES = financial_crises
 
 
-def create_chart(dataframes: List[DataFrame], stock_names: List[str], **options):
+def create_chart(dataframes: List[DataFrame], names: List[str], **options):
     """
     :param dataframes
-    :param stock_names
+    :param names
     :param **kwargs
         filesave        bool
             : 파일 저장?
@@ -58,7 +58,7 @@ def create_chart(dataframes: List[DataFrame], stock_names: List[str], **options)
                 ax1.axvspan(crisis[0], crisis[1], color = 'gray', alpha = 0.2)
 
     # legend 처리
-    ax1.legend([x[0] for x in lines], stock_names, loc = 'upper left')
+    ax1.legend([x[0] for x in lines], names, loc = 'upper left')
 
     plt.grid(True, which = 'both', axis = 'x', color = 'gray', alpha = 0.3, linestyle = '--')
     plt.show()

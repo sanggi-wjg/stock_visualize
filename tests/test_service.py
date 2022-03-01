@@ -191,7 +191,7 @@ class StockPriceServiceTestCase2(unittest.TestCase):
     def test_get_price_list(self):
         stock_prices = self.stock_price_service.lists("삼성전자", "2022-01-01", "2022-02-01")
         # for stock_price in stock_prices:
-            # print(stock_price)
+        # print(stock_price)
 
 
 class IndexServiceTestCase(unittest.TestCase):
@@ -211,7 +211,7 @@ class IndexServiceTestCase(unittest.TestCase):
         # given
         # when
         # then
-        for name in ALLOW_INDEXES:
+        for name, fdr_name in ALLOW_INDEXES:
             self.index_service.get_or_create(name)
 
 
