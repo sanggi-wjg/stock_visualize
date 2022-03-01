@@ -9,10 +9,14 @@
 #### NHN, 카카오, 네이버 주가 비교
 ![1](docs/1.png)
 
-#### NHN, 카카오, 네이버 주가 정규화, 표준화 비교
+정규화
 ![](docs/2.png)
 
+표준화
 ![](docs/3.png)
+
+수익률
+![](docs/4.png)
 
 ## Development Environment
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)
@@ -28,6 +32,8 @@ requriements.txt
 
 ## Usage
 ```shell
+constants.py 에서 DATABASE 수정
+
 1. command / register_markets  
     DB에 Market 등록 (Kospi, Kosdaq, ...)
 
@@ -39,8 +45,6 @@ requriements.txt
     
 4. command / craete_stock_chart
     Create graph chart
-    
-
 ```
 
 
@@ -58,6 +62,7 @@ app / commands / ...  : Executable service code
 docker / ... : Dockerfile or docker-compose file 
 
 tests / ... : Test source code
+
 (command line 으로 전체 다 테스트 해보고 싶다면
 database engine 이 사용중인 db 말고 다른 db로 선택한 후에 
 python -m unittest discover)

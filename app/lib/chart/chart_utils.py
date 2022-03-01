@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import List, Tuple
 
 import pandas as pd
@@ -25,7 +26,8 @@ def financial_crises() -> List[Tuple[str, str, str]]:
         ('2010-03-01', '2011-11-01', '유럽 금융 위기'),
         ('2015-08-11', '2016-03-01', '위완화 평가 절하 발표'),
         ('2020-02-21', '2020-03-23', '우한 폐렴 전설의 시작'),
-        ('2021-09-18', '2021-12-04', '헝다 그룹 파산'),
+        ('2021-09-18', '2021-10-01', '헝다 그룹 파산'),
+        ('2022-02-24', '2022-03-01', '러시아 우크라이나 침공'),
     ]
 
 
@@ -70,17 +72,19 @@ class DataFrameConverter:
         cls,
         stock_prices: List[StockPrice],
         standardization: bool = False,
-        normalization: bool = False
+        normalization: bool = False,
+        earning_ratio: bool = False
     ) -> DataFrame:
         """
         :param stock_prices: StockPrice Entity
         :param standardization: Do 표준화
         :param normalization: Do 정규화
+        :param earning_ratio: Do 수익률
         :return: DataFrame
         :rtype: DataFrame
         """
         if standardization and normalization:
-            raise InvalidConvertOption("both standardization and normalization can't set true")
+            raise InvalidConvertOption("Invalid argument standardization and normalization can't set true")
 
         dataframe = pd.DataFrame(
             [price.price_close for price in stock_prices],
@@ -92,6 +96,8 @@ class DataFrameConverter:
             return standardize(dataframe)
         if normalization:
             return normalize(dataframe)
+        if earning_ratio:
+            return earning_rate(dataframe)
         return dataframe
 
     @classmethod
@@ -99,9 +105,35 @@ class DataFrameConverter:
         cls,
         index_prices,
         standardization: bool = False,
-        normalization = False
+        normalization = False,
+        earning_ratio: bool = False
     ) -> DataFrame:
-        return NotImplemented
+
+        if standardization and normalization:
+            raise InvalidConvertOption("Invalid argument standardization and normalization can't set true")
+
+        dataframe = pd.DataFrame(
+            [price.price_close for price in index_prices],
+            index = [price.date for price in index_prices],
+            columns = ['Price']
+        )
+
+        if standardization:
+            return standardize(dataframe)
+        if normalization:
+            return normalize(dataframe)
+        if earning_ratio:
+            return earning_rate(dataframe)
+        return dataframe
+
+
+def earning_rate(dataframe: DataFrame) -> DataFrame:
+    """
+    수익률
+    :return: 수익률
+    """
+    df = (dataframe / dataframe.iloc[0]) - Decimal(1.0)
+    return df
 
 
 def standardize(dataframe: DataFrame) -> DataFrame:

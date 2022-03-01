@@ -10,6 +10,7 @@ from pandas import DataFrame, Series
 from app.database import StockPrice
 from app.exceptions import InvalidConvertOption
 from app.lib.chart.chart_utils import plt_colors, DataFrameConverter, financial_crises
+from app.service.index_price_service import IndexPriceService
 from app.service.stock_price_service import StockPriceService
 from app.service.stock_service import StockService
 from app.vo import Price
@@ -34,6 +35,8 @@ class FdrTestCase(unittest.TestCase):
 
 
 class ChartUtilsTestCase(unittest.TestCase):
+    stock_price_service: StockPriceService = StockPriceService()
+    index_price_service: IndexPriceService = IndexPriceService()
 
     def test_plt_colors(self):
         color = plt_colors(0)
@@ -104,3 +107,17 @@ class ChartUtilsTestCase(unittest.TestCase):
             self.assertIsInstance(crisis[0], str)
             self.assertIsInstance(crisis[1], str)
             self.assertIsInstance(crisis[2], str)
+
+    @skip(reason = "local test")
+    def test_stock_earning_rate(self):
+        stock_prices = self.stock_price_service.get_price_list("삼성전자", "2022-01-01", "2022-03-01")
+
+        df = DataFrameConverter.stock_price_to_dataframe(stock_prices, earning_ratio = True)
+        self.assertIsInstance(df, DataFrame)
+
+    @skip(reason = "local test")
+    def test_index_earning_rate(self):
+        index_prices = self.index_price_service.get_price_list("KS11", "2014-01-01", "2022-03-01")
+
+        df = DataFrameConverter.index_price_to_dataframe(index_prices, earning_ratio = True)
+        print(df)

@@ -7,6 +7,7 @@ from app.command.base_command import BaseCommand
 from app.database import Index
 from app.service.index_price_service import IndexPriceService
 from app.service.index_service import IndexService
+from app.utils import get_today_date_format
 
 
 class IndexPriceRegister(BaseCommand):
@@ -16,6 +17,11 @@ class IndexPriceRegister(BaseCommand):
     index_price_service: IndexPriceService = IndexPriceService()
 
     def add_arguments(self):
+        self.parser.add_argument('-start_date', default = '1980-01-01', type = str,
+                                 help = "Start date")
+        self.parser.add_argument('-end_date', default = get_today_date_format('%Y-%m-%d'), type = str,
+                                 help = "End date")
+
         self.args = self.parser.parse_args()
 
     def handle(self, *args, **kwargs):
@@ -26,7 +32,7 @@ class IndexPriceRegister(BaseCommand):
         self.print.info(f"Register {index.index_name}")
 
         # get index dataframe
-        dataframe = fdr.DataReader(index.index_name)
+        dataframe = fdr.DataReader(index.index_name, self.args.start_date, self.args.end_date)
 
         # register
         self.index_price_service.create_all_with_dataframe(dataframe, index)

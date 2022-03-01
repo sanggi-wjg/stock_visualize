@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from pandas import DataFrame
@@ -47,3 +48,17 @@ class IndexPriceService(BaseService):
             return True
         except NoResultFound:
             return False
+
+    def get_price_list(self, index_name: str, start_date: datetime, end_date: datetime) -> List[IndexPrice]:
+        try:
+            return self.session.query(
+                IndexPrice.date, IndexPrice.price_close, Index.index_name
+            ).join(
+                Index
+            ).filter(
+                Index.index_name == index_name,
+                IndexPrice.date >= start_date,
+                IndexPrice.date <= end_date
+            ).order_by(IndexPrice.date).all()
+        except Exception as e:
+            raise e
