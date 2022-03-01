@@ -48,7 +48,7 @@ class ChartCreator(BaseCommand):
                                  help = 'Stock names + Index names')
         """
         (-t NHN 카카오 NAVER)
-        (-t NHN KS11 -e True -start_date=2014-01-01 ) 
+        (-t NHN KS11 -e True -start_date=2014-01-01 )
         """
 
         self.args = self.parser.parse_args()
