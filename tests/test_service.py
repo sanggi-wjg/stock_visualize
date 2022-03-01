@@ -211,7 +211,7 @@ class IndexServiceTestCase(unittest.TestCase):
         # given
         # when
         # then
-        for name, fdr_name in ALLOW_INDEXES:
+        for name in ALLOW_INDEXES:
             self.index_service.get_or_create(name)
 
 
