@@ -6,7 +6,8 @@
 그래프 차트를 그려줍니다.
 
 ## Graph chart samples
-#### NHN, 카카오, 네이버 주가 비교
+#### NHN, 카카오, 네이버 
+주가 비교
 ![1](docs/1.png)
 
 정규화
@@ -17,6 +18,13 @@
 
 수익률
 ![](docs/4.png)
+
+<details>
+<summary>수익률 - KOSPI, NHN (2014~) </summary>
+
+![](docs/earn_1.png)
+</details>
+
 
 ## Development Environment
 [![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3102/)
@@ -42,6 +50,12 @@ constants.py 에서 DATABASE 수정
 
 3. command / register_stock_prices
     DB에 StockPrice 등록
+
+4. command / register_indexes
+    DB에 Index 등록
+    
+5. command / register_index_prices
+    DB에 IndexPrice 등록
     
 4. command / craete_stock_chart
     Create graph chart
@@ -58,6 +72,8 @@ app / commands / ...  : Executable service code
     / utils           : Util code
     / vo              : Value Objects
     / constants       : Constants
+    
+.github / workflows / ... : workflow jobs 
 
 docker / ... : Dockerfile or docker-compose file 
 
