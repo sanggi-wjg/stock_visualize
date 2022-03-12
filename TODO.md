@@ -6,12 +6,12 @@
  
 
 * create_chart 수정
-* [ ] Index 추가 
+* [X] Index 추가 
 
 
 * RADEME.md 파일 수정
-* [ ] commands 자세히
-* [ ] usage 자세히
+* [X] commands 자세히
+* [X] usage 자세히
 
 ### Lint
 ```shell

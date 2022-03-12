@@ -68,7 +68,7 @@ class StockPriceService:
             StockPrice.date <= end_date
         ).order_by(StockPrice.date)
 
-    def get_price_list(self, stock_name: str, start_date: datetime, end_date: datetime) -> List[StockPrice]:
+    def get_price_list(self, stock_name: str, start_date: str, end_date: str) -> List[StockPrice]:
         try:
             return self.session.query(
                 StockPrice.date, StockPrice.price_close, Stock.stock_name

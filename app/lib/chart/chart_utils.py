@@ -6,7 +6,7 @@ from matplotlib import dates
 from matplotlib.dates import DateFormatter, YearLocator, MonthLocator
 from pandas import DataFrame
 
-from app.database import StockPrice
+from app.database import StockPrice, IndexPrice
 from app.exceptions import InvalidConvertOption
 
 
@@ -103,9 +103,9 @@ class DataFrameConverter:
     @classmethod
     def index_price_to_dataframe(
         cls,
-        index_prices,
+        index_prices: List[IndexPrice],
         standardization: bool = False,
-        normalization = False,
+        normalization: bool = False,
         earning_ratio: bool = False
     ) -> DataFrame:
 

@@ -21,19 +21,22 @@ class IndexPriceRegister(BaseCommand):
                                  help = "Start date")
         self.parser.add_argument('-end_date', default = get_today_date_format('%Y-%m-%d'), type = str,
                                  help = "End date")
+        self.parser.add_argument('-index', default = None, type = str, help = '인덱스')
 
         self.args = self.parser.parse_args()
 
     def handle(self, *args, **kwargs):
-        for index in self.index_service.lists():
-            self.try_register(index)
+        if self.args.index is not None:
+            self.try_register(self.index_service.get_equal_name(self.args.index))
+        else:
+            for index in self.index_service.lists():
+                self.try_register(index)
 
     def try_register(self, index: Index):
         self.print.info(f"Register {index.index_name}")
 
         # get index dataframe
         dataframe = fdr.DataReader(index.index_name, self.args.start_date, self.args.end_date)
-
         # register
         self.index_price_service.create_all_with_dataframe(dataframe, index)
 

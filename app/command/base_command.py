@@ -1,7 +1,7 @@
 from argparse import ArgumentParser, Namespace
 from collections import namedtuple
 
-from app.colorful import green, yellow, red
+from app.colorful import green, yellow, red, magenta
 
 
 class BaseCommand:
@@ -9,7 +9,8 @@ class BaseCommand:
     args: Namespace = None
 
     def __init__(self, parser: ArgumentParser):
-        self.print = namedtuple('CommandPrint', ['info', 'warning', 'error'])
+        self.print = namedtuple('CommandPrint', ['debug', 'info', 'warning', 'error'])
+        self.print.debug = magenta
         self.print.info = green
         self.print.warning = yellow
         self.print.error = red

@@ -40,7 +40,7 @@ class ChartCreator(BaseCommand):
                                  help = '수익률')
 
         # term, implement not yet
-        self.parser.add_argument('-chart_term', default = 10, type = int,
+        self.parser.add_argument('-chart_term', default = 5, type = int,
                                  help = "(!미구현) chart 여러개 그린다고 하면 사용하자")
 
         # indexes, stocks
@@ -49,6 +49,11 @@ class ChartCreator(BaseCommand):
         """
         (-t NHN 카카오 NAVER)
         (-t NHN KS11 -e True -start_date=2014-01-01 )
+
+
+        -t KS11 DJI USD/KRW -n True -start_date=2010-01-01 -end_date=2015-12-31
+        -t KS11 DJI USD/KRW -n True -start_date=2015-01-01 -end_date=2019-12-31
+        -t KS11 DJI USD/KRW -n True -start_date=2020-01-01 -end_date=2022-03-12
         """
 
         self.args = self.parser.parse_args()

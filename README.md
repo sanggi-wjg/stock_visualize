@@ -10,6 +10,9 @@
 주가 비교
 ![1](docs/1.png)
 
+<details>
+<summary>정규화, 표준화, 수익률</summary>
+
 정규화
 ![](docs/2.png)
 
@@ -18,11 +21,25 @@
 
 수익률
 ![](docs/4.png)
+</details>
+
 
 <details>
+한결같은 NHN ^^
 <summary>수익률 - KOSPI, NHN (2014~) </summary>
 
 ![](docs/earn_1.png)
+</details>
+
+<details>
+<summary>정규화 - 환율, KOSPI, DowJones</summary>
+환율과 KOSPI 지수는 반 상관관계 가짐   <br>
+KOSPI 와 DowJones 는 상관관계를 가지나 외부요인으로 아닌 경우도 있음
+
+2010~
+![](images/1.png)
+![](images/2.png)
+![](images/3.png)
 </details>
 
 

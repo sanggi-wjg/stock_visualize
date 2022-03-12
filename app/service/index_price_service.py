@@ -49,7 +49,7 @@ class IndexPriceService(BaseService):
         except NoResultFound:
             return False
 
-    def get_price_list(self, index_name: str, start_date: datetime, end_date: datetime) -> List[IndexPrice]:
+    def get_price_list(self, index_name: str, start_date: str, end_date: str) -> List[IndexPrice]:
         try:
             return self.session.query(
                 IndexPrice.date, IndexPrice.price_close, Index.index_name
