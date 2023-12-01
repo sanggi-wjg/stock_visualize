@@ -4,14 +4,14 @@ from typing import List, Tuple
 from pandas import DataFrame
 
 from app.exceptions import InvalidCommandArgs, StockNotFound, IndexNotFound
-from app.lib.chart.chart_creator import create_chart
-from app.lib.chart.chart_utils import DataFrameConverter
-from app.service.index_price_service import IndexPriceService
-from app.service.index_service import IndexService
-from app.service.stock_price_service import StockPriceService
+from app.module.chart.chart_creator import create_chart
+from app.module.chart.chart_utils import DataFrameConverter
+from app.repository.index_price_service import IndexPriceService
+from app.repository.index_service import IndexService
+from app.repository.stock_price_service import StockPriceService
 
 from app.command.base_command import BaseCommand
-from app.service.stock_service import StockService
+from app.repository.stock_service import StockService
 from app.utils import get_today_date_format
 
 

@@ -9,11 +9,15 @@ from pandas import DataFrame, Series
 
 from app.database import StockPrice
 from app.exceptions import InvalidConvertOption
-from app.lib.chart.chart_utils import plt_colors, DataFrameConverter, financial_crises
-from app.service.index_price_service import IndexPriceService
-from app.service.stock_price_service import StockPriceService
-from app.service.stock_service import StockService
-from app.vo import Price
+from app.module.chart.chart_utils import (
+    plt_colors,
+    DataFrameConverter,
+    financial_crises,
+)
+from app.repository.index_price_service import IndexPriceService
+from app.repository.stock_price_service import StockPriceService
+from app.repository.stock_service import StockService
+from app.model.vo import Price
 
 
 class FdrTestCase(unittest.TestCase):

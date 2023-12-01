@@ -1,13 +1,17 @@
-from app.colorful import red
 from app.database import session_factory
+from app.util import get_logger
+
+log = get_logger()
 
 
-class BaseService:
+class BaseRepository:
     def __init__(self, test_mode: bool = False):
         self.session = session_factory()
         self.test_mode = test_mode
         if self.test_mode:
-            red(f"Current Service test_mode is `{self.__class__}`. Not allowed commit.")
+            log.error(
+                f"Current Service test_mode is `{self.__class__}`. Not allowed commit."
+            )
 
     def __del__(self):
         self.close()

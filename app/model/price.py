@@ -1,12 +1,10 @@
 import math
+from dataclasses import dataclass
 from decimal import Decimal
 
 
+@dataclass(order=True, slots=True)
 class Price(object):
-    """
-    Price DTO
-    """
-
     open: Decimal
     high: Decimal
     low: Decimal

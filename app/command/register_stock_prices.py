@@ -5,8 +5,8 @@ from pandas import DataFrame
 
 from app.command.base_command import BaseCommand
 from app.exceptions import StockNotFound
-from app.service.stock_price_service import StockPriceService
-from app.service.stock_service import StockService
+from app.repository.stock_price_service import StockPriceService
+from app.repository.stock_service import StockService
 
 
 class StockPriceRegister(BaseCommand):

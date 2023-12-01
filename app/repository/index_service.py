@@ -4,7 +4,7 @@ from sqlalchemy.exc import NoResultFound
 
 from app.database import Index
 from app.exceptions import IndexNotFound
-from app.service.base_service import BaseService
+from app.repository.base_service import BaseService
 
 
 class IndexService(BaseService):

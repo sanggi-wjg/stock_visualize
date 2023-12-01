@@ -1,6 +1,17 @@
 import datetime
+import os
+from decimal import Decimal
+from typing import List
 
-from sqlalchemy.orm import declarative_base, sessionmaker, relationship, Session
+from sqlalchemy.orm import (
+    declarative_base,
+    sessionmaker,
+    relationship,
+    Session,
+    DeclarativeBase,
+    mapped_column,
+    Mapped,
+)
 from sqlalchemy import (
     create_engine,
     Column,
@@ -13,35 +24,56 @@ from sqlalchemy import (
     UniqueConstraint,
 )
 
-from app.constants import ALLOW_MARKETS, DATABASE_DSN, ALLOW_INDEXES, DATABASE_ENGINE
-from app.exceptions import MarketException, IndexException
-from app.vo import Price
+from app.constant import ALLOW_MARKETS, ALLOW_INDEXES
+from app.exception import MarketException, IndexException
+from app.model.price import Price
+
+
+DATABASE = {
+    "ENGINE": os.environ.get("DATABASE_ENGINE", "mysql"),
+    "NAME": "stock",
+    "USER": "root",
+    "PASSWORD": "rootroot",
+    "HOST": "localhost",
+    "PORT": 33061,
+}
+
+
+def get_database_dsn() -> str:
+    if DATABASE["ENGINE"] == "mysql":
+        return f"mysql+pymysql://{DATABASE['USER']}:{DATABASE['PASSWORD']}@{DATABASE['HOST']}:{DATABASE['PORT']}/{DATABASE['NAME']}"
+    elif DATABASE["ENGINE"] == "sqlite":
+        return "sqlite:///:memory:"
+    else:
+        raise Exception(f"not implemented db_engine:{DATABASE['ENGINE']}")
 
 
 def create_engine_factory():
-    if DATABASE_ENGINE == "mysql":
+    if DATABASE["ENGINE"] == "mysql":
         return create_engine(
-            DATABASE_DSN, isolation_level="REPEATABLE READ", echo=False
+            get_database_dsn(), isolation_level="REPEATABLE READ", echo=False
         )
-    elif DATABASE_ENGINE == "sqlite":
-        return create_engine(DATABASE_DSN)
+    elif DATABASE["ENGINE"] == "sqlite":
+        return create_engine(DATABASE["ENGINE"])
     else:
-        raise Exception(f"not allowed database engine:{DATABASE_ENGINE}")
+        raise Exception(f"not allowed database engine:{DATABASE['ENGINE']}")
 
 
 engine = create_engine_factory()
-Base = declarative_base()
+# Base = declarative_base()
+
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Market(Base):
-    __tablename__ = "markets"
+    __tablename__ = "market"
 
-    id = Column(Integer, primary_key=True, autoincrement="auto")
-    market_name = Column(String(50), unique=True, nullable=False)
-    created_at = Column(DateTime(), default=datetime.datetime.utcnow())
-
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement="auto")
+    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     # 역방향 relation
-    stocks = relationship("Stock", back_populates="market")
+    stocks: Mapped[List["Stock"]] = relationship("Stock", back_populates="market")
 
     def __repr__(self):
         return f"<Market(id={self.id} name={self.market_name})>"
@@ -57,22 +89,25 @@ class Market(Base):
 
 
 class Stock(Base):
-    __tablename__ = "stocks"
-    __table_args__ = (
-        UniqueConstraint("stock_code", "stock_name", name="unique_stocks_stock"),
+    __tablename__ = "stock"
+    __table_args__ = (UniqueConstraint("code", "name", name="unq_stock_001_code_name"),)
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement="auto")
+    code: Mapped[str] = mapped_column(
+        String(50), unique=True, nullable=False, index=True
+    )
+    name: Mapped[str] = mapped_column(
+        String(50), unique=True, nullable=False, index=True
     )
 
-    id = Column(Integer, primary_key=True, autoincrement="auto")
-
     # 정방향 relation
-    market_id = Column(Integer, ForeignKey("markets.id"))
-    market = relationship("Market", back_populates="stocks")
+    market_id: Mapped[int] = mapped_column(Integer, ForeignKey("market.id"))
+    market: Mapped["Market"] = relationship("Market", back_populates="stocks")
 
     # 역방향 relation
-    stock_prices = relationship("StockPrice", back_populates="stock")
-
-    stock_code = Column(String(50), unique=True, nullable=False)
-    stock_name = Column(String(50), unique=True, nullable=False, index=True)
+    prices: Mapped[List["StockPrice"]] = relationship(
+        "StockPrice", back_populates="stock"
+    )
 
     def __repr__(self):
         return f"<Stock(id={self.id} market={self.market_id} name={self.stock_name})>"
@@ -84,24 +119,24 @@ class Stock(Base):
 
 
 class StockPrice(Base):
-    __tablename__ = "stock_prices"
+    __tablename__ = "stock_price"
     __table_args__ = (
-        UniqueConstraint("stock_id", "date", name="unique_stock_price_stock_date"),
+        UniqueConstraint("stock_id", "date", name="unq_stock_price_001_stock_date"),
     )
 
-    id = Column(Integer, primary_key=True, autoincrement="auto")
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement="auto")
+    date: Mapped[datetime] = mapped_column(Date(), nullable=False)
+    price_open: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_close: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_high: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_low: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_change: Mapped[Decimal] = mapped_column(Numeric(10, 6), nullable=False)
 
     # 정방향 relation
-    stock_id = Column(Integer, ForeignKey("stocks.id"), nullable=False)
-    stock = relationship("Stock", back_populates="stock_prices")
-
-    price_open = Column(Numeric(10, 2), nullable=False)
-    price_close = Column(Numeric(10, 2), nullable=False)
-    price_high = Column(Numeric(10, 2), nullable=False)
-    price_low = Column(Numeric(10, 2), nullable=False)
-    price_change = Column(Numeric(10, 6), nullable=False)
-
-    date = Column(Date(), nullable=False)
+    stock_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("stock.id"), nullable=False
+    )
+    stock: Mapped["Stock"] = relationship("Stock", back_populates="prices")
 
     def __repr__(self):
         return f"<StockPrice(id={self.id} stock_id={self.stock_id} date={self.date} close={self.price_close})>"
@@ -117,14 +152,15 @@ class StockPrice(Base):
 
 
 class Index(Base):
-    __tablename__ = "indexes"
+    __tablename__ = "index"
 
-    id = Column(Integer, primary_key=True, autoincrement="auto")
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement="auto")
+    name: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
 
     # 역방향 relation
-    index_prices = relationship("IndexPrice", back_populates="index")
-
-    index_name = Column(String(50), unique=True, nullable=False)
+    prices: Mapped[List["IndexPrice"]] = relationship(
+        "IndexPrice", back_populates="index"
+    )
 
     def __repr__(self):
         return f"<Index(id={self.id} index_name={self.index_name})>"
@@ -139,21 +175,21 @@ class Index(Base):
 
 
 class IndexPrice(Base):
-    __tablename__ = "index_prices"
+    __tablename__ = "index_price"
 
-    id = Column(Integer, primary_key=True, autoincrement="auto")
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement="auto")
+    date: Mapped[datetime] = mapped_column(Date(), nullable=False)
+    price_open: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_close: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_high: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_low: Mapped[Decimal] = mapped_column(Numeric(10, 2), nullable=False)
+    price_change: Mapped[Decimal] = mapped_column(Numeric(10, 6), nullable=False)
 
     # 정방향 relation
-    index_id = Column(Integer, ForeignKey("indexes.id"), nullable=False)
-    index = relationship("Index", back_populates="index_prices")
-
-    price_open = Column(Numeric(10, 2), nullable=False)
-    price_close = Column(Numeric(10, 2), nullable=False)
-    price_high = Column(Numeric(10, 2), nullable=False)
-    price_low = Column(Numeric(10, 2), nullable=False)
-    price_change = Column(Numeric(10, 6), nullable=False)
-
-    date = Column(Date(), nullable=False)
+    index_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("indexe.id"), nullable=False
+    )
+    index: Mapped["Index"] = relationship("Index", back_populates="prices")
 
     def __repr__(self):
         return f"<IndexPrice(id={self.id} index_id={self.index_id} date={self.date} close={self.price_close})>"
@@ -169,8 +205,7 @@ class IndexPrice(Base):
 
 
 Base.metadata.create_all(engine)
-Sess = sessionmaker(bind=engine)
 
 
 def session_factory() -> Session:
-    return Sess()
+    return Session(bind=engine)

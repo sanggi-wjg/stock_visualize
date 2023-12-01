@@ -2,7 +2,7 @@ import argparse
 
 from app.command.base_command import BaseCommand
 from app.constants import ALLOW_INDEXES
-from app.service.index_service import IndexService
+from app.repository.index_service import IndexService
 
 
 class IndexRegister(BaseCommand):
