@@ -1,12 +1,11 @@
 # Database
 import os
-from typing import List, Dict, Tuple
 
 DATABASE = {
     "NAME": "Sample",
     "USER": "root",
     "PASSWORD": "rootroot",
-    "HOST": "192.168.10.151",
+    "HOST": "localhost",
     "PORT": 33061,
 }
 
