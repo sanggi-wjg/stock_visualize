@@ -6,8 +6,8 @@ from sqlalchemy.exc import NoResultFound
 
 from app.database import session_factory, StockPrice, Stock
 from app.exceptions import StockNotFound
-from app.service.stock_service import StockService
-from app.vo import Price
+from app.repository.stock_service import StockService
+from app.model.vo import Price
 
 
 class StockPriceService:

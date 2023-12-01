@@ -4,12 +4,12 @@ from unittest import skip
 from app.constants import ALLOW_INDEXES
 from app.database import StockPrice, Market, Stock, Index, IndexPrice
 from app.exceptions import MarketException
-from app.service.index_price_service import IndexPriceService
-from app.service.index_service import IndexService
-from app.service.market_service import MarketService
-from app.service.stock_price_service import StockPriceService
-from app.service.stock_service import StockService
-from app.vo import Price
+from app.repository.index_price_service import IndexPriceService
+from app.repository.index_service import IndexService
+from app.repository.market_service import MarketService
+from app.repository.stock_price_service import StockPriceService
+from app.repository.stock_service import StockService
+from app.model.vo import Price
 
 
 class MarketServiceTestCase(unittest.TestCase):

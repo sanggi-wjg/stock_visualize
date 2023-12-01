@@ -3,7 +3,7 @@ from typing import List
 from matplotlib import pyplot as plt
 from pandas import DataFrame
 
-from app.lib.chart.chart_utils import plt_colors, financial_crises
+from app.module.chart.chart_utils import plt_colors, financial_crises
 
 plt.rcParams["font.family"] = "NanumBarunGothic"
 plt.rcParams["figure.figsize"] = (70, 30)

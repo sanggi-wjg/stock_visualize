@@ -1,7 +1,7 @@
 from argparse import ArgumentParser, Namespace
 from collections import namedtuple
 
-from app.colorful import green, yellow, red, magenta
+from app.util import magenta, green, yellow, red
 
 
 class BaseCommand:

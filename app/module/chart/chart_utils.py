@@ -7,7 +7,7 @@ from matplotlib.dates import DateFormatter, YearLocator, MonthLocator
 from pandas import DataFrame
 
 from app.database import StockPrice, IndexPrice
-from app.exceptions import InvalidConvertOption
+from app.exception import InvalidConvertOption
 
 
 def financial_crises() -> List[Tuple[str, str, str]]:
