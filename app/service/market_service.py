@@ -6,7 +6,6 @@ from app.database import session_factory, Market
 
 
 class MarketService:
-
     def __init__(self):
         self.session = session_factory()
 
@@ -30,11 +29,19 @@ class MarketService:
         return self.session.query(Market).all()
 
     def get_equal(self, market_name: str) -> Market:
-        return self.session.query(Market).filter(Market.market_name == market_name.upper()).one()
+        return (
+            self.session.query(Market)
+            .filter(Market.market_name == market_name.upper())
+            .one()
+        )
 
     def get_or_create(self, market_name: str) -> Market:
         try:
-            return self.session.query(Market).filter(Market.market_name == market_name.upper()).one()
+            return (
+                self.session.query(Market)
+                .filter(Market.market_name == market_name.upper())
+                .one()
+            )
 
         except NoResultFound:
             try:
@@ -48,7 +55,11 @@ class MarketService:
                 raise e
 
     def delete_equal(self, market_name: str):
-        markets = self.session.query(Market).filter(Market.market_name == market_name.upper()).all()
+        markets = (
+            self.session.query(Market)
+            .filter(Market.market_name == market_name.upper())
+            .all()
+        )
         try:
             for market in markets:
                 self.session.delete(market)

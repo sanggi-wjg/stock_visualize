@@ -19,7 +19,7 @@ class MarketServiceTestCase(unittest.TestCase):
         pass
 
     def tearDown(self) -> None:
-        self.market_service.delete_equal(market_name = "test")
+        self.market_service.delete_equal(market_name="test")
         self.market_service.close()
 
     def test_create(self):
@@ -63,7 +63,7 @@ class MarketServiceTestCase(unittest.TestCase):
 
     def test_get_equal(self):
         # given
-        market_name = 'kospi'
+        market_name = "kospi"
         self.market_service.get_or_create(market_name)
 
         # when
@@ -129,7 +129,7 @@ class StockServiceTestCase(unittest.TestCase):
         self.assertEqual(stock.stock_code, stock_code)
         self.assertEqual(stock.stock_name, stock_name)
 
-    @skip(reason = "just test")
+    @skip(reason="just test")
     def test_reverse_relation(self):
         stock = self.stock_service.get_equal_name("삼성")
 
@@ -165,7 +165,7 @@ class StockPriceServiceTestCase(unittest.TestCase):
         self.stock_service.close()
         self.stock_price_service.close()
 
-    @skip(reason = "only local")
+    @skip(reason="only local")
     def test_create(self):
         # given
         date = "2022-02-21"
@@ -189,17 +189,19 @@ class StockPriceServiceTestCase2(unittest.TestCase):
     stock_price_service: StockPriceService = StockPriceService()
 
     def test_get_price_list(self):
-        stock_prices = self.stock_price_service.lists("삼성전자", "2022-01-01", "2022-02-01")
+        stock_prices = self.stock_price_service.lists(
+            "삼성전자", "2022-01-01", "2022-02-01"
+        )
         # for stock_price in stock_prices:
         # print(stock_price)
 
 
 class IndexServiceTestCase(unittest.TestCase):
-    index_service: IndexService = IndexService(test_mode = True)
+    index_service: IndexService = IndexService(test_mode=True)
 
     def test_create(self):
         # given
-        index = Index(name = "KS11")
+        index = Index(name="KS11")
 
         # when
         index = self.index_service.create(index)
@@ -216,16 +218,18 @@ class IndexServiceTestCase(unittest.TestCase):
 
 
 class IndexPriceServiceTestCase(unittest.TestCase):
-    index_service: IndexService = IndexService(test_mode = True)
-    index_price_service: IndexPriceService = IndexPriceService(test_mode = True)
+    index_service: IndexService = IndexService(test_mode=True)
+    index_price_service: IndexPriceService = IndexPriceService(test_mode=True)
 
     def test_create(self):
         # given
-        index = Index(name = "KS11")
+        index = Index(name="KS11")
         index = self.index_service.create(index)
 
         # when
-        index_price = IndexPrice(index.id, Price(100.0, 150.0, 200.0, 50.0, 0.001234), '2022-02-01')
+        index_price = IndexPrice(
+            index.id, Price(100.0, 150.0, 200.0, 50.0, 0.001234), "2022-02-01"
+        )
         index_price = self.index_price_service.create(index_price)
 
         # then

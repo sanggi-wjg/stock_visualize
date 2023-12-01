@@ -8,7 +8,6 @@ from app.service.base_service import BaseService
 
 
 class IndexService(BaseService):
-
     def create(self, index: Index) -> Index:
         try:
             self.session.add(index)
@@ -21,14 +20,20 @@ class IndexService(BaseService):
 
     def get_or_create(self, index_name: str) -> Index:
         try:
-            return self.session.query(Index).filter(Index.index_name == index_name.upper()).one()
+            return (
+                self.session.query(Index)
+                .filter(Index.index_name == index_name.upper())
+                .one()
+            )
 
         except NoResultFound:
             return self.create(Index(index_name))
 
     def get_equal_name(self, index_name: str) -> Index:
         try:
-            return self.session.query(Index).filter(Index.index_name == index_name).one()
+            return (
+                self.session.query(Index).filter(Index.index_name == index_name).one()
+            )
         except NoResultFound:
             raise IndexNotFound(f"Index({index_name}) not found")
 

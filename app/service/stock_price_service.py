@@ -11,7 +11,6 @@ from app.vo import Price
 
 
 class StockPriceService:
-
     def __init__(self):
         self.session = session_factory()
         self.stock_service = StockService()
@@ -40,10 +39,18 @@ class StockPriceService:
         else:
             stock_prices = [
                 StockPrice(
-                    stock.id, Price(data['Open'], data['Close'], data['High'], data['Low'], data['Change']), date.strftime('%y-%m-%d')
+                    stock.id,
+                    Price(
+                        data["Open"],
+                        data["Close"],
+                        data["High"],
+                        data["Low"],
+                        data["Change"],
+                    ),
+                    date.strftime("%y-%m-%d"),
                 )
                 for date, data in dataframe.iterrows()
-                if not self.is_exist_stock_price(stock.id, date.strftime('%y-%m-%d'))
+                if not self.is_exist_stock_price(stock.id, date.strftime("%y-%m-%d"))
             ]
             self.create_all(stock_prices)
 
@@ -59,32 +66,47 @@ class StockPriceService:
     def get_or_create(self):
         pass
 
-    def lists(self, stock_name: str, start_date: datetime, end_date: datetime) -> List[StockPrice]:
-        return self.session.query(
-            StockPrice.date, StockPrice.price_close, Stock.stock_name
-        ).join(Stock).filter(
-            Stock.stock_name == stock_name,
-            StockPrice.date >= start_date,
-            StockPrice.date <= end_date
-        ).order_by(StockPrice.date)
-
-    def get_price_list(self, stock_name: str, start_date: str, end_date: str) -> List[StockPrice]:
-        try:
-            return self.session.query(
+    def lists(
+        self, stock_name: str, start_date: datetime, end_date: datetime
+    ) -> List[StockPrice]:
+        return (
+            self.session.query(
                 StockPrice.date, StockPrice.price_close, Stock.stock_name
-            ).join(
-                Stock
-            ).filter(
+            )
+            .join(Stock)
+            .filter(
                 Stock.stock_name == stock_name,
                 StockPrice.date >= start_date,
-                StockPrice.date <= end_date
-            ).order_by(StockPrice.date).all()
+                StockPrice.date <= end_date,
+            )
+            .order_by(StockPrice.date)
+        )
+
+    def get_price_list(
+        self, stock_name: str, start_date: str, end_date: str
+    ) -> List[StockPrice]:
+        try:
+            return (
+                self.session.query(
+                    StockPrice.date, StockPrice.price_close, Stock.stock_name
+                )
+                .join(Stock)
+                .filter(
+                    Stock.stock_name == stock_name,
+                    StockPrice.date >= start_date,
+                    StockPrice.date <= end_date,
+                )
+                .order_by(StockPrice.date)
+                .all()
+            )
         except Exception as e:
             raise e
 
     def is_exist_stock_price(self, stock_id: int, date: str) -> bool:
         try:
-            self.session.query(StockPrice).filter(StockPrice.stock_id == stock_id, StockPrice.date == date).one()
+            self.session.query(StockPrice).filter(
+                StockPrice.stock_id == stock_id, StockPrice.date == date
+            ).one()
             return True
         except NoResultFound:
             return False
@@ -92,7 +114,11 @@ class StockPriceService:
     def delete_equal_stock(self, stock_name: str):
         try:
             stock = self.stock_service.get_equal_name(stock_name)
-            stock_prices = self.session.query(StockPrice).filter(StockPrice.stock_id == stock.id).all()
+            stock_prices = (
+                self.session.query(StockPrice)
+                .filter(StockPrice.stock_id == stock.id)
+                .all()
+            )
 
             for price in stock_prices:
                 self.session.delete(price)

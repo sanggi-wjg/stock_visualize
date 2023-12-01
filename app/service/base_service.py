@@ -3,7 +3,6 @@ from app.database import session_factory
 
 
 class BaseService:
-
     def __init__(self, test_mode: bool = False):
         self.session = session_factory()
         self.test_mode = test_mode

@@ -1,29 +1,21 @@
 ## TODO:
+
 * Index, IndexPrice (Dollar, Kospi, Nasdaq, WTI, ...) 구현
 * [X] Entity
 * [X] Service
 * [X] Commands
- 
+
 
 * create_chart 수정
-* [X] Index 추가 
+* [X] Index 추가
 
 
 * RADEME.md 파일 수정
 * [X] commands 자세히
 * [X] usage 자세히
 
-### Lint
-```shell
-1. pip install flake8
-2. .flake8 작성
-
-# 실행
-flake8 .
-```
-
-
 ### Coverage
+
 ```shell
 1. pip install coverage
 2. .coveragerc 작성
@@ -39,6 +31,7 @@ coverage erase
 ```
 
 #### Create Coverage Badge
+
 ```shell
 pip install coverage-badge
 coverage-badge -o coverage.svg
@@ -47,6 +40,7 @@ coverage-badge -o coverage.svg
 Not everyone should be allowed to vote!
 
 ### 참고
+
 ```shell
 # SqlAlchemy
 https://docs.sqlalchemy.org/en/14/orm/tutorial.html#querying

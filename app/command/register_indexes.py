@@ -6,7 +6,7 @@ from app.service.index_service import IndexService
 
 
 class IndexRegister(BaseCommand):
-    help = 'Register Indexes'
+    help = "Register Indexes"
 
     index_service: IndexService = IndexService()
 

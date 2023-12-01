@@ -16,7 +16,7 @@ from app.utils import get_today_date_format
 
 
 class ChartCreator(BaseCommand):
-    help = 'Create chart (그래프 차트 그리기)'
+    help = "Create chart (그래프 차트 그리기)"
 
     stock_service: StockService = StockService()
     stock_price_service: StockPriceService = StockPriceService()
@@ -26,26 +26,38 @@ class ChartCreator(BaseCommand):
 
     def add_arguments(self):
         # date
-        self.parser.add_argument('-start_date', default = '1980-01-01', type = str,
-                                 help = "Start date")
-        self.parser.add_argument('-end_date', default = get_today_date_format('%Y-%m-%d'), type = str,
-                                 help = "End date")
+        self.parser.add_argument(
+            "-start_date", default="1980-01-01", type=str, help="Start date"
+        )
+        self.parser.add_argument(
+            "-end_date",
+            default=get_today_date_format("%Y-%m-%d"),
+            type=str,
+            help="End date",
+        )
 
         # Manipulate data
-        self.parser.add_argument('-s', '--standard', default = False, type = bool,
-                                 help = '표준화')
-        self.parser.add_argument('-n', '--normal', default = False, type = bool,
-                                 help = '정규화')
-        self.parser.add_argument('-e', '--earning', default = False, type = bool,
-                                 help = '수익률')
+        self.parser.add_argument(
+            "-s", "--standard", default=False, type=bool, help="표준화"
+        )
+        self.parser.add_argument("-n", "--normal", default=False, type=bool, help="정규화")
+        self.parser.add_argument(
+            "-e", "--earning", default=False, type=bool, help="수익률"
+        )
 
         # term, implement not yet
-        self.parser.add_argument('-chart_term', default = 5, type = int,
-                                 help = "(!미구현) chart 여러개 그린다고 하면 사용하자")
+        self.parser.add_argument(
+            "-chart_term", default=5, type=int, help="(!미구현) chart 여러개 그린다고 하면 사용하자"
+        )
 
         # indexes, stocks
-        self.parser.add_argument('-t', '--targets', nargs = '+', required = True,
-                                 help = 'Stock names + Index names')
+        self.parser.add_argument(
+            "-t",
+            "--targets",
+            nargs="+",
+            required=True,
+            help="Stock names + Index names",
+        )
         """
         (-t NHN 카카오 NAVER)
         (-t NHN KS11 -e True -start_date=2014-01-01 )
@@ -94,7 +106,9 @@ class ChartCreator(BaseCommand):
         self.print.warning("Clean targets", stock_targets, index_targets)
         return stock_targets, index_targets
 
-    def convert_entities_to_dataframes(self, stock_targets: List[str], index_targets: List[str]) -> List[DataFrame]:
+    def convert_entities_to_dataframes(
+        self, stock_targets: List[str], index_targets: List[str]
+    ) -> List[DataFrame]:
         """
         :param stock_targets stock name
         :param index_targets index name
@@ -102,22 +116,28 @@ class ChartCreator(BaseCommand):
         """
         dfs = [
             DataFrameConverter.stock_price_to_dataframe(
-                self.stock_price_service.get_price_list(stock_name, self.args.start_date, self.args.end_date),
-                standardization = self.args.standard,
-                normalization = self.args.normal,
-                earning_ratio = self.args.earning
+                self.stock_price_service.get_price_list(
+                    stock_name, self.args.start_date, self.args.end_date
+                ),
+                standardization=self.args.standard,
+                normalization=self.args.normal,
+                earning_ratio=self.args.earning,
             )
             for stock_name in stock_targets
         ]
-        dfs.extend([
-            DataFrameConverter.index_price_to_dataframe(
-                self.index_price_service.get_price_list(index_name, self.args.start_date, self.args.end_date),
-                standardization = self.args.standard,
-                normalization = self.args.normal,
-                earning_ratio = self.args.earning
-            )
-            for index_name in index_targets
-        ])
+        dfs.extend(
+            [
+                DataFrameConverter.index_price_to_dataframe(
+                    self.index_price_service.get_price_list(
+                        index_name, self.args.start_date, self.args.end_date
+                    ),
+                    standardization=self.args.standard,
+                    normalization=self.args.normal,
+                    earning_ratio=self.args.earning,
+                )
+                for index_name in index_targets
+            ]
+        )
         return dfs
 
 

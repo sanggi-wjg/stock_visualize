@@ -9,7 +9,7 @@ class BaseCommand:
     args: Namespace = None
 
     def __init__(self, parser: ArgumentParser):
-        self.print = namedtuple('CommandPrint', ['debug', 'info', 'warning', 'error'])
+        self.print = namedtuple("CommandPrint", ["debug", "info", "warning", "error"])
         self.print.debug = magenta
         self.print.info = green
         self.print.warning = yellow
