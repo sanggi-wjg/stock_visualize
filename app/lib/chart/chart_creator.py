@@ -5,13 +5,13 @@ from pandas import DataFrame
 
 from app.lib.chart.chart_utils import plt_colors, financial_crises
 
-plt.rcParams["font.family"] = 'NanumBarunGothic'
+plt.rcParams["font.family"] = "NanumBarunGothic"
 plt.rcParams["figure.figsize"] = (70, 30)
-plt.rcParams['lines.linewidth'] = 4
-plt.rcParams['font.size'] = 40
-plt.rcParams['axes.grid'] = True
-plt.rcParams['grid.linestyle'] = '--'
-plt.rcParams['grid.linewidth'] = 2
+plt.rcParams["lines.linewidth"] = 4
+plt.rcParams["font.size"] = 40
+plt.rcParams["axes.grid"] = True
+plt.rcParams["grid.linestyle"] = "--"
+plt.rcParams["grid.linewidth"] = 2
 
 COLORS = plt_colors
 FINANCIAL_CRISES = financial_crises
@@ -40,7 +40,7 @@ def create_chart(dataframes: List[DataFrame], names: List[str], **options):
     chart_y_label = options.get("chart_y_label", "Price")
 
     # create figure
-    fig = plt.figure(tight_layout = True)
+    fig = plt.figure(tight_layout=True)
     ax1 = fig.add_subplot(111)
     ax1.set_ylabel(chart_y_label)
 
@@ -48,18 +48,18 @@ def create_chart(dataframes: List[DataFrame], names: List[str], **options):
 
     # draw dataframes to plot
     for i, df in enumerate(dataframes):
-        line = ax1.plot(df, color = COLORS(i), label = df)
+        line = ax1.plot(df, color=COLORS(i), label=df)
         lines.append(line)
 
         # crisis gray 처리
         first, last = str(df.index[0]), str(df.index[-1])
         for crisis in FINANCIAL_CRISES():
             if first <= crisis[0] and crisis[1] <= last:
-                ax1.axvspan(crisis[0], crisis[1], color = 'gray', alpha = 0.2)
+                ax1.axvspan(crisis[0], crisis[1], color="gray", alpha=0.2)
 
     # legend 처리
-    ax1.legend([x[0] for x in lines], names, loc = 'upper left')
+    ax1.legend([x[0] for x in lines], names, loc="upper left")
 
-    plt.grid(True, which = 'both', axis = 'x', color = 'gray', alpha = 0.3, linestyle = '--')
+    plt.grid(True, which="both", axis="x", color="gray", alpha=0.3, linestyle="--")
     plt.show()
     plt.close(fig)

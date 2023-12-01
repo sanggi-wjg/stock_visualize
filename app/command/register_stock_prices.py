@@ -10,14 +10,19 @@ from app.service.stock_service import StockService
 
 
 class StockPriceRegister(BaseCommand):
-    help = 'Register Stock Prices'
+    help = "Register Stock Prices"
 
     stock_service: StockService = StockService()
     stock_price_service: StockPriceService = StockPriceService()
 
     def add_arguments(self):
-        self.parser.add_argument('-t', '--targets', nargs = '+',
-                                 help = 'Stock names (-t NHN 카카오 삼성전자)', required = True)
+        self.parser.add_argument(
+            "-t",
+            "--targets",
+            nargs="+",
+            help="Stock names (-t NHN 카카오 삼성전자)",
+            required=True,
+        )
         # self.parser.add_argument('-stock_name', default = '삼성전자', type = str, help = 'Stock name',
         #                          choices = [stock.stock_name for stock in self.stock_service.lists()])
 
@@ -37,7 +42,9 @@ class StockPriceRegister(BaseCommand):
             # self.print.warning(dataframe.tail(5))
 
             # register stock prices
-            self.stock_price_service.create_all_with_dataframe(dataframe, stock.stock_code)
+            self.stock_price_service.create_all_with_dataframe(
+                dataframe, stock.stock_code
+            )
             self.print.info("Done")
 
         except StockNotFound as e:

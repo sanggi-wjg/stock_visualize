@@ -10,7 +10,7 @@ services:
     environment:
       - MYSQL_DATABASE=Sample
       - MYSQL_ROOT_PASSWORD=rootroot  # MYSQL 패스워드 설정 옵션
-      - TZ=Asia/Seoul
+      - TZ=UTC
     command: # 명령어 실행
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci

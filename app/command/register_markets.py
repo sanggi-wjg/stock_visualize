@@ -5,10 +5,10 @@ from app.service.market_service import MarketService
 
 
 class MarketRegister(BaseCommand):
-    help = 'Register Markets'
+    help = "Register Markets"
 
     market_service: MarketService = MarketService()
-    markets: list = ['kospi', 'kosdaq']
+    markets: list = ["kospi", "kosdaq"]
 
     def add_arguments(self):
         pass

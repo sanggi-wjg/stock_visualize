@@ -9,6 +9,7 @@ class MarketNotFound(MarketException):
     """
     Market not found
     """
+
     pass
 
 
@@ -23,6 +24,7 @@ class StockNotFound(StockException):
     """
     Stock not found
     """
+
     pass
 
 

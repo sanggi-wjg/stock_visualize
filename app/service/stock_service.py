@@ -7,7 +7,6 @@ from app.exceptions import StockNotFound
 
 
 class StockService:
-
     def __init__(self):
         self.session = session_factory()
 
@@ -36,13 +35,17 @@ class StockService:
 
     def get_equal_name(self, stock_name: str) -> Stock:
         try:
-            return self.session.query(Stock).filter(Stock.stock_name == stock_name).one()
+            return (
+                self.session.query(Stock).filter(Stock.stock_name == stock_name).one()
+            )
         except NoResultFound:
             raise StockNotFound(f"Stock({stock_name}) not found")
 
     def get_equal_code(self, stock_code: str) -> Stock:
         try:
-            return self.session.query(Stock).filter(Stock.stock_code == stock_code).one()
+            return (
+                self.session.query(Stock).filter(Stock.stock_code == stock_code).one()
+            )
         except NoResultFound:
             raise StockNotFound(f"Stock({stock_code}) not found")
 

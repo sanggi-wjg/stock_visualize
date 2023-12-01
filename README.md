@@ -8,19 +8,19 @@
 ## Graph chart samples
 #### NHN, 카카오, 네이버 
 주가 비교
-![1](docs/1.png)
+![1](docs/.images/1.png)
 
 <details>
 <summary>정규화, 표준화, 수익률</summary>
 
 정규화
-![](docs/2.png)
+![](docs/.images/2.png)
 
 표준화
-![](docs/3.png)
+![](docs/.images/3.png)
 
 수익률
-![](docs/4.png)
+![](docs/.images/4.png)
 </details>
 
 
@@ -28,7 +28,7 @@
 한결같은 NHN ^^
 <summary>수익률 - KOSPI, NHN (2014~) </summary>
 
-![](docs/earn_1.png)
+![](docs/.images/earn_1.png)
 </details>
 
 <details>
@@ -37,9 +37,9 @@
 KOSPI 와 DowJones 는 상관관계를 가지나 외부요인으로 아닌 경우도 있음
 
 2010~
-![](images/1.png)
-![](images/2.png)
-![](images/3.png)
+![](docs/.images/5.png)
+![](docs/.images/6.png)
+![](docs/.images/7.png)
 </details>
 
 

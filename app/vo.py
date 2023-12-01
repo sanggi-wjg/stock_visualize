@@ -6,13 +6,16 @@ class Price(object):
     """
     Price DTO
     """
+
     open: Decimal
     high: Decimal
     low: Decimal
     close: Decimal
     change: Decimal
 
-    def __init__(self, open: float, close: float, high: float, low: float, change: float):
+    def __init__(
+        self, open: float, close: float, high: float, low: float, change: float
+    ):
         if math.isnan(change):
             change = 0.0
 

@@ -11,15 +11,20 @@ from app.service.stock_service import StockService
 
 
 class StockRegister(BaseCommand):
-    help = 'Register Stocks'
+    help = "Register Stocks"
 
     market_service: MarketService = MarketService()
     stock_service: StockService = StockService()
     market_name: str = ""
 
     def add_arguments(self):
-        self.parser.add_argument('-market_name', default = 'kosdaq', type = str, help = 'Market name',
-                                 choices = [market.market_name for market in self.market_service.lists()])
+        self.parser.add_argument(
+            "-market_name",
+            default="kosdaq",
+            type=str,
+            help="Market name",
+            choices=[market.market_name for market in self.market_service.lists()],
+        )
         args = self.parser.parse_args()
 
         self.market_name = args.market_name
@@ -34,8 +39,8 @@ class StockRegister(BaseCommand):
                 self.print.warning(f"{data['Name']} is not stock")
 
     def create_stock(self, data: Series):
-        if not self.stock_service.is_exist_equal(data['Name']):
-            self.stock_service.create(self.market_name, data['Symbol'], data['Name'])
+        if not self.stock_service.is_exist_equal(data["Name"]):
+            self.stock_service.create(self.market_name, data["Symbol"], data["Name"])
             self.print.info(f"Register {data['Name']}")
         else:
             self.print.warning(f"{data['Name']} is already registered")
@@ -45,8 +50,8 @@ def is_stock_series(data: Series) -> bool:
     """
     exclude call option, put option, etf
     """
-    if isinstance(data['Sector'], float) and isinstance(data['Industry'], float):
-        if math.isnan(data['Sector']) and math.isnan(data['Industry']):
+    if isinstance(data["Sector"], float) and isinstance(data["Industry"], float):
+        if math.isnan(data["Sector"]) and math.isnan(data["Industry"]):
             return False
 
     return True
